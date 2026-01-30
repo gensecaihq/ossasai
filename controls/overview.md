@@ -4,7 +4,6 @@ title: Controls
 nav_order: 4
 has_children: true
 description: 'OSSASAI security control catalog: structure, domains, and implementation guidance'
-permalink: /controls/
 ---
 
 ## Abstract

@@ -4,7 +4,6 @@ title: Incident Response
 nav_order: 8
 has_children: true
 description: 'Security incident response program for AI assistant environments'
-permalink: /incident-response/
 ---
 
 ## Overview

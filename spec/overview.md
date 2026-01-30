@@ -4,7 +4,6 @@ title: Specification
 nav_order: 2
 has_children: true
 description: 'OSSASAI normative requirements, conformance criteria, and framework structure'
-permalink: /spec/
 ---
 
 ## Abstract

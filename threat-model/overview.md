@@ -4,7 +4,6 @@ title: Threat Model
 nav_order: 3
 has_children: true
 description: 'Formal threat modeling methodology for AI agent runtime security'
-permalink: /threat-model/
 ---
 
 ## Abstract

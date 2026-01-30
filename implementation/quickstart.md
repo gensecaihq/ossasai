@@ -4,7 +4,6 @@ title: Implementation
 nav_order: 5
 has_children: true
 description: 'Rapid secure deployment of OSSASAI controls'
-permalink: /implementation/
 ---
 
 ## Overview

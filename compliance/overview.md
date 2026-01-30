@@ -4,7 +4,6 @@ title: Compliance
 nav_order: 7
 has_children: true
 description: 'OSSASAI compliance program and certification process'
-permalink: /compliance/
 ---
 
 ## Overview
