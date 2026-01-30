@@ -1,70 +1,33 @@
 # OSSASAI - Open Security Standard for Agentic Systems
 
 [![License](https://img.shields.io/badge/License-Apache%202.0-green.svg)](LICENSE)
-[![Version](https://img.shields.io/badge/Version-0.1.0-blue)](appendices/changelog.mdx)
+[![Version](https://img.shields.io/badge/Version-0.1.0-blue)](CHANGELOG.md)
 
-**OSSASAI** (Open Security Standard for Agentic Systems) is a vendor-neutral, community-driven security framework designed specifically for AI agent systems that interact with external tools, filesystems, networks, and users.
+**OSSASAI** is a vendor-neutral, community-driven security framework for AI agent systems that interact with external tools, filesystems, networks, and users.
 
 ## Why OSSASAI?
 
-Traditional security frameworks (OWASP, NIST, CIS) address general application and infrastructure security but don't adequately cover the unique threat landscape of AI agents:
+Traditional security frameworks don't adequately address AI agent-specific threats:
 
-- **Prompt injection attacks** that manipulate agent behavior
-- **Tool abuse** where legitimate capabilities are misused
-- **Context poisoning** through malicious conversation history
-- **Identity confusion** in multi-user messaging environments
-- **Capability escalation** through chained tool invocations
+- **Prompt injection** - Manipulating agent behavior through crafted inputs
+- **Tool abuse** - Misusing legitimate capabilities for unintended purposes
+- **Context poisoning** - Corrupting conversation history or memory
+- **Identity confusion** - Exploiting multi-user messaging environments
+- **Capability escalation** - Chaining tool invocations for unauthorized access
 
-OSSASAI provides a structured approach to these AI-specific threats while building on established security principles.
+OSSASAI provides structured controls for these threats while building on established security principles.
 
-## Design Philosophy
+## Core Concepts
 
-> "Access control before intelligence."
+### Assurance Levels
 
-Most AI agent security failures are not sophisticated exploits—they're cases where "someone messaged the bot and the bot did what they asked." OSSASAI's stance: **Identity first, scope next, model last.**
+| Level | Name | Description |
+|-------|------|-------------|
+| **L1** | Local-First | Single-user, loopback-only, minimal attack surface |
+| **L2** | Network-Aware | Multi-user, LAN/VPN exposure, team deployments |
+| **L3** | High-Assurance | Production, public exposure, regulated environments |
 
-## Framework Structure
-
-```
-ossasai/
-├── introduction.mdx          # Framework overview
-├── spec/                     # Core specification (RFC 2119 normative)
-│   ├── overview.mdx          # Specification overview
-│   ├── assurance-levels.mdx  # L1/L2/L3 definitions
-│   ├── trust-boundaries.mdx  # B1-B4 boundary definitions
-│   └── compliance-workflow.mdx
-├── threat-model/             # Threat analysis
-│   ├── overview.mdx          # Threat model introduction
-│   ├── adversary-classes.mdx # A1-A5 adversary taxonomy
-│   ├── attack-vectors.mdx    # Attack surface analysis
-│   ├── ai-agent-threats.mdx  # AI Agent Threat Taxonomy (AATT)
-│   └── risk-scoring.mdx      # Blast radius framework
-├── controls/                 # Security controls (24 total)
-│   ├── overview.mdx          # Control catalog
-│   ├── control-plane.mdx     # CP-01 to CP-04
-│   ├── identity-session.mdx  # ID-01 to ID-03
-│   ├── tool-blast-radius.mdx # TB-01 to TB-04
-│   ├── local-state.mdx       # LS-01 to LS-04
-│   ├── supply-chain.mdx      # SC-01 to SC-02
-│   ├── formal-verification.mdx # FV-01 to FV-03
-│   └── network-security.mdx  # NS-01 to NS-04
-├── implementation/           # Deployment guides
-├── testing/                  # Security testing methodology
-├── compliance/               # Compliance program
-├── incident-response/        # IR procedures
-├── tools/                    # Audit scripts and automation
-└── appendices/               # Standards mapping, glossary
-```
-
-## Assurance Levels
-
-| Level | Name | Use Case |
-|-------|------|----------|
-| **L1** | Local-First | Single-user, loopback-only deployments |
-| **L2** | Network-Aware | Multi-user, LAN/VPN exposure |
-| **L3** | High-Assurance | Production, public-facing, regulated environments |
-
-## Trust Boundaries
+### Trust Boundaries
 
 | Boundary | Name | Description |
 |----------|------|-------------|
@@ -73,95 +36,94 @@ ossasai/
 | **B3** | Tool Governance | Capability restrictions and sandboxing |
 | **B4** | Local State | Secrets, logs, and persistent data |
 
-## Control Domains
+### Control Domains
 
-| Domain | ID | Controls | Focus |
-|--------|-------|----------|-------|
-| Control Plane | CP | 4 | Gateway exposure, authentication, proxy trust |
-| Identity & Session | ID | 3 | Peer verification, session isolation |
-| Tool Blast Radius | TB | 4 | Least privilege, approval gates, sandboxing |
-| Local State | LS | 4 | Secrets protection, log redaction, retention |
-| Supply Chain | SC | 2 | Plugin trust, reproducible builds |
-| Formal Verification | FV | 3 | Security invariants, negative testing |
-| Network Security | NS | 4 | TLS, certificates, API security |
+| Domain | Controls | Focus |
+|--------|----------|-------|
+| **CP** | 4 | Control plane exposure, authentication |
+| **ID** | 3 | Peer verification, session isolation |
+| **TB** | 4 | Tool least privilege, sandboxing |
+| **LS** | 4 | Secrets, log redaction, retention |
+| **SC** | 2 | Plugin trust, supply chain |
+| **FV** | 3 | Formal verification (optional) |
+| **NS** | 4 | TLS, certificates, API security |
+
+## Framework Structure
+
+```
+ossasai/
+├── spec/                     # Core specification
+│   ├── overview.mdx          # Framework overview
+│   ├── assurance-levels.mdx  # L1/L2/L3 definitions
+│   ├── trust-boundaries.mdx  # B1-B4 definitions
+│   └── compliance-workflow.mdx
+├── threat-model/             # Threat analysis
+│   ├── adversary-classes.mdx # A1-A5 taxonomy
+│   ├── ai-agent-threats.mdx  # AATT (AI Agent Threat Taxonomy)
+│   ├── attack-vectors.mdx
+│   └── risk-scoring.mdx
+├── controls/                 # Security controls
+│   ├── control-plane.mdx     # CP-01 to CP-04
+│   ├── identity-session.mdx  # ID-01 to ID-03
+│   ├── tool-blast-radius.mdx # TB-01 to TB-04
+│   ├── local-state.mdx       # LS-01 to LS-04
+│   ├── supply-chain.mdx      # SC-01 to SC-02
+│   ├── formal-verification.mdx # FV-01 to FV-03
+│   └── network-security.mdx  # NS-01 to NS-04
+├── implementation/           # Deployment guides
+├── testing/                  # Security testing
+├── compliance/               # Evidence collection
+├── incident-response/        # Playbooks
+├── tools/                    # Reference tooling
+└── appendices/               # Standards mapping
+```
 
 ## Implementation Profiles
 
-OSSASAI is implemented through platform-specific **profiles** that map controls to concrete features:
+OSSASAI is implemented through platform-specific profiles:
 
 | Profile | Platform | Repository |
 |---------|----------|------------|
 | **OCSAS** | OpenClaw | [github.com/gensecaihq/ocsas](https://github.com/gensecaihq/ocsas) |
 
-> Want to create a profile for another AI agent platform? See [Creating Implementation Profiles](implementation/quickstart.mdx).
-
-## Standards Mapping
-
-OSSASAI aligns with established security frameworks:
+## Standards Alignment
 
 | Standard | Alignment |
 |----------|-----------|
 | OWASP ASVS v4.0 | Authentication, session management, access control |
 | NIST SP 800-53 Rev 5 | AC, AU, CM, IA, SC control families |
-| NIST AI RMF | AI-specific risk management practices |
 | CIS Controls v8 | Controls 3, 4, 5, 6, 12, 16 |
 | MITRE ATT&CK | Tactic and technique mapping |
-| Common Criteria | EAL alignment for assurance levels |
 
-## Quick Start
+## Getting Started
 
-### 1. Understand the Threat Model
-
-```bash
-# Review adversary classes and AI-specific threats
-cat threat-model/adversary-classes.mdx
-cat threat-model/ai-agent-threats.mdx
-```
-
-### 2. Choose Your Assurance Level
-
-Based on your deployment context:
-- **L1**: Local development, single user
-- **L2**: Team deployment, internal network
-- **L3**: Production, external users
-
-### 3. Use an Implementation Profile
-
-For OpenClaw deployments, use [OCSAS](https://github.com/gensecaihq/ocsas):
-
-```bash
-# Clone the OCSAS profile
-git clone https://github.com/gensecaihq/ocsas
-
-# Run security audit (OpenClaw)
-openclaw security audit --deep
-```
-
-## Tooling
-
-OSSASAI provides reference tooling:
-
-- **`ossasai-audit.sh`** - Bash script for automated compliance checking
-- **`ossasai-report.py`** - Python script for compliance report generation
-- **`ossasai-github-action.yml`** - CI/CD integration workflow
+1. **Review the threat model** - Understand adversary classes and AI-specific threats
+2. **Choose your assurance level** - L1, L2, or L3 based on deployment context
+3. **Review applicable controls** - Identify requirements for your level
+4. **Use an implementation profile** - Platform-specific guidance (e.g., OCSAS for OpenClaw)
+5. **Verify compliance** - Run automated audits and collect evidence
 
 ## Contributing
 
-OSSASAI is an open standard. Contributions welcome:
+Contributions welcome:
 
 - **Framework improvements** - Submit issues and PRs
 - **Implementation profiles** - Create profiles for new platforms
 - **Security research** - Contribute threat intelligence
 
-## Related Projects
+## Documentation
 
-- [OCSAS](https://github.com/gensecaihq/ocsas) - OpenClaw implementation profile
-- [OpenClaw](https://openclaw.ai) - AI agent gateway for messaging platforms
+| Document | Description |
+|----------|-------------|
+| [spec/overview.mdx](spec/overview.mdx) | Framework specification |
+| [controls/overview.mdx](controls/overview.mdx) | Control catalog |
+| [CHANGELOG.md](CHANGELOG.md) | Version history |
+| [SECURITY.md](SECURITY.md) | Security policy |
 
 ## License
 
-Apache License 2.0 - See [LICENSE](LICENSE) for details.
+[Apache License 2.0](LICENSE)
 
 ---
 
-**OSSASAI v0.1.0** | January 2025 | Open Security Standard for Agentic Systems
+**OSSASAI v0.1.0** | Open Security Standard for Agentic Systems
