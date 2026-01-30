@@ -1,0 +1,118 @@
+---
+title: 'OSSASAI - Open Security Standard for Agentic Systems'
+description: 'A vendor-neutral security framework for AI agent systems'
+---
+
+## Welcome to OSSASAI
+
+**OSSASAI** (Open Security Standard for Agentic Systems) is a vendor-neutral, community-driven security framework designed specifically for AI agent systems that interact with external tools, filesystems, networks, and users.
+
+<Note>
+**Design Philosophy:** "Access control before intelligence." Most AI agent security failures are not sophisticated exploits—they're cases where "someone messaged the bot and the bot did what they asked." OSSASAI's stance: Identity first, scope next, model last.
+</Note>
+
+## Why OSSASAI?
+
+Traditional security frameworks (OWASP, NIST, CIS) address general application and infrastructure security but don't adequately cover the unique threat landscape of AI agents:
+
+- **Prompt injection attacks** that manipulate agent behavior
+- **Tool abuse** where legitimate capabilities are misused
+- **Context poisoning** through malicious conversation history
+- **Identity confusion** in multi-user messaging environments
+- **Capability escalation** through chained tool invocations
+
+OSSASAI provides a structured approach to these AI-specific threats while building on established security principles.
+
+## Framework Structure
+
+<CardGroup cols={2}>
+  <Card title="Specification" icon="file-contract" href="/spec/overview">
+    Core requirements using RFC 2119 normative language (MUST/SHOULD/MAY)
+  </Card>
+  <Card title="Threat Model" icon="skull-crossbones" href="/threat-model/overview">
+    Adversary taxonomy, attack vectors, and AI-specific threats
+  </Card>
+  <Card title="Controls" icon="shield-halved" href="/controls/overview">
+    24 security controls across 7 domains
+  </Card>
+  <Card title="Implementation" icon="hammer" href="/implementation/quickstart">
+    Deployment guides for each assurance level
+  </Card>
+</CardGroup>
+
+## Assurance Levels
+
+OSSASAI defines three assurance levels based on deployment context and risk tolerance:
+
+| Level | Name | Description |
+|-------|------|-------------|
+| **L1** | Local-First | Single-user, loopback-only deployments with minimal attack surface |
+| **L2** | Network-Aware | Multi-user deployments with LAN/VPN exposure |
+| **L3** | High-Assurance | Production deployments with public exposure or regulatory requirements |
+
+## Trust Boundaries
+
+The framework defines four trust boundaries that must be secured:
+
+| Boundary | Name | Description |
+|----------|------|-------------|
+| **B1** | Inbound Identity | Message sources and sender verification |
+| **B2** | Control Plane | Administrative interfaces and configuration |
+| **B3** | Tool Governance | Capability restrictions and sandboxing |
+| **B4** | Local State | Secrets, logs, and persistent data |
+
+## Control Domains
+
+| Domain | ID | Controls | Description |
+|--------|-------|----------|-------------|
+| Control Plane | CP | 4 | Gateway exposure, authentication, proxy trust |
+| Identity & Session | ID | 3 | Peer verification, session isolation, group policies |
+| Tool Blast Radius | TB | 4 | Least privilege, approval gates, sandboxing |
+| Local State | LS | 4 | Secrets protection, log redaction, retention |
+| Supply Chain | SC | 2 | Plugin trust, reproducible builds |
+| Formal Verification | FV | 3 | Security invariants, testing, CI integration |
+| Network Security | NS | 4 | TLS, certificates, API security |
+
+## Implementation Profiles
+
+OSSASAI is designed to be implemented by specific AI agent platforms through **implementation profiles**. Each profile maps OSSASAI controls to platform-specific features, configurations, and tooling.
+
+### Available Profiles
+
+<Card title="OCSAS - OpenClaw Security Assurance Standard" icon="claw" href="https://github.com/gensecaihq/ocsas">
+  Implementation profile for OpenClaw AI agent gateway. Maps OSSASAI controls to OpenClaw's DM policies, sandboxing, and security audit CLI.
+</Card>
+
+## Getting Started
+
+1. **Understand the threat model** - Review [adversary classes](/threat-model/adversary-classes) and [AI agent threats](/threat-model/ai-agent-threats)
+2. **Choose your assurance level** - Based on deployment context, select [L1, L2, or L3](/spec/assurance-levels)
+3. **Review applicable controls** - Identify controls required for your assurance level
+4. **Implement controls** - Follow implementation guides or use a platform-specific profile
+5. **Verify compliance** - Use automated auditing and evidence collection
+
+## Standards Alignment
+
+OSSASAI maps to established security frameworks:
+
+| Standard | Alignment |
+|----------|-----------|
+| OWASP ASVS v4.0 | Authentication, session management, access control |
+| NIST SP 800-53 | AC, AU, CM, IA, SC control families |
+| NIST AI RMF | AI-specific risk management |
+| CIS Controls v8 | Controls 3, 4, 5, 6, 12, 16 |
+| MITRE ATT&CK | Tactic and technique mapping |
+
+## Contributing
+
+OSSASAI is an open standard. Contributions are welcome:
+
+- **Framework improvements** - Submit issues and PRs to the [OSSASAI repository](https://github.com/gensecaihq/ossasai)
+- **Implementation profiles** - Create profiles for additional AI agent platforms
+- **Security research** - Report vulnerabilities and contribute threat intelligence
+
+## Version
+
+**OSSASAI v0.1.0** - January 2025
+
+This is an initial release. The framework will evolve based on community feedback and emerging AI agent security research.
