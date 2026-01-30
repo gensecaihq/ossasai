@@ -1,5 +1,8 @@
 ---
-title: 'Supply Chain (SC)'
+layout: default
+title: Supply Chain (SC)
+parent: Controls
+nav_order: 7
 description: 'Extension and plugin security controls for trust, inventory, and pinning'
 ---
 

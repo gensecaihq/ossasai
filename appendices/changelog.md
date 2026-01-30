@@ -1,5 +1,8 @@
 ---
-title: 'Changelog'
+layout: default
+title: Changelog
+parent: Appendices
+nav_order: 2
 description: 'OSSASAI version history and changes'
 ---
 

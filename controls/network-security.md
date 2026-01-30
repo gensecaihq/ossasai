@@ -1,5 +1,8 @@
 ---
-title: 'Network Security (NS)'
+layout: default
+title: Network Security (NS)
+parent: Controls
+nav_order: 9
 description: 'Transport security, endpoint protection, and traffic analysis controls'
 ---
 

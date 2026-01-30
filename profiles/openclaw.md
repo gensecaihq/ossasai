@@ -1,5 +1,8 @@
 ---
-title: 'OCSAS - OpenClaw Security Assurance Standard'
+layout: default
+title: OCSAS (OpenClaw)
+parent: Profiles
+nav_order: 2
 description: 'OSSASAI implementation profile for OpenClaw agent runtime'
 ---
 

@@ -1,5 +1,8 @@
 ---
-title: 'Formal Verification (FV)'
+layout: default
+title: Formal Verification (FV)
+parent: Controls
+nav_order: 8
 description: 'Optional high-assurance controls using formal methods'
 ---
 

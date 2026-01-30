@@ -1,5 +1,8 @@
 ---
-title: 'L3 Deployment Guide'
+layout: default
+title: L3 Deployment
+parent: Implementation
+nav_order: 4
 description: 'High-assurance deployment for regulated industries'
 ---
 

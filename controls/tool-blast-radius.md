@@ -1,5 +1,8 @@
 ---
-title: 'Tool Blast Radius (TB)'
+layout: default
+title: Tool Blast Radius (TB)
+parent: Controls
+nav_order: 5
 description: 'B3 boundary controls for tool governance, least privilege, and sandboxing'
 ---
 

@@ -1,5 +1,8 @@
 ---
-title: 'Trust Boundaries'
+layout: default
+title: Trust Boundaries
+parent: Specification
+nav_order: 3
 description: 'Formal definitions of B1-B4 canonical trust boundaries and security implications'
 ---
 

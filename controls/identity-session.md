@@ -1,5 +1,8 @@
 ---
-title: 'Identity & Session (ID)'
+layout: default
+title: Identity & Session (ID)
+parent: Controls
+nav_order: 4
 description: 'B1 boundary controls for pairing, verification, and session isolation'
 ---
 

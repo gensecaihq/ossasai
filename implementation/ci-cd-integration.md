@@ -1,5 +1,8 @@
 ---
-title: 'CI/CD Integration'
+layout: default
+title: CI/CD Integration
+parent: Implementation
+nav_order: 6
 description: 'DevSecOps integration for automated compliance verification'
 ---
 

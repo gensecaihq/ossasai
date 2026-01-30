@@ -1,5 +1,8 @@
 ---
-title: 'Incident Response Playbooks'
+layout: default
+title: Playbooks
+parent: Incident Response
+nav_order: 2
 description: 'Detailed procedures for specific incident types'
 ---
 

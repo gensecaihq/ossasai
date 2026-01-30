@@ -1,5 +1,8 @@
 ---
-title: 'L1 Deployment Guide'
+layout: default
+title: L1 Deployment
+parent: Implementation
+nav_order: 2
 description: 'Local-first secure deployment for individual developers'
 ---
 

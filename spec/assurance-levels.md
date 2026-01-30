@@ -1,5 +1,8 @@
 ---
-title: 'Assurance Levels'
+layout: default
+title: Assurance Levels
+parent: Specification
+nav_order: 2
 description: 'Formal definitions, risk criteria, and control requirements for OSSASAI L1, L2, and L3 assurance levels'
 ---
 

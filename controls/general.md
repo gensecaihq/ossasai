@@ -1,5 +1,8 @@
 ---
-title: 'General (GEN)'
+layout: default
+title: General (GEN)
+parent: Controls
+nav_order: 2
 description: 'Cross-cutting foundational security controls applicable to all trust boundaries'
 ---
 

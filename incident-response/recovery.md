@@ -1,5 +1,8 @@
 ---
-title: 'Recovery Procedures'
+layout: default
+title: Recovery
+parent: Incident Response
+nav_order: 3
 description: 'System recovery and restoration after security incidents'
 ---
 

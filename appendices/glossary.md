@@ -1,6 +1,10 @@
 ---
-title: 'Glossary'
+layout: default
+title: Appendices
+nav_order: 9
+has_children: true
 description: 'OSSASAI terminology and definitions'
+permalink: /appendices/
 ---
 
 ## A

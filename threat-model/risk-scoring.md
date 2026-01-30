@@ -1,5 +1,8 @@
 ---
-title: 'Risk Scoring'
+layout: default
+title: Risk Scoring
+parent: Threat Model
+nav_order: 5
 description: 'Blast Radius framework for quantifying attack impact'
 ---
 

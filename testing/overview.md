@@ -1,6 +1,10 @@
 ---
-title: 'Security Testing Overview'
+layout: default
+title: Testing
+nav_order: 6
+has_children: true
 description: 'OSSASAI security testing methodology and procedures'
+permalink: /testing/
 ---
 
 ## Overview

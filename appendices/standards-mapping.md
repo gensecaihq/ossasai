@@ -1,7 +1,9 @@
 ---
-title: 'Standards Mapping'
+layout: default
+title: Standards Mapping
+parent: Appendices
+nav_order: 3
 description: 'OSSASAI alignment with international security standards and regulatory frameworks'
-sidebarTitle: 'Standards Mapping'
 ---
 
 ## Abstract

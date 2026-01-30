@@ -1,6 +1,10 @@
 ---
-title: 'Implementation Profiles'
+layout: default
+title: Profiles
+nav_order: 10
+has_children: true
 description: 'Platform-specific mappings of OSSASAI controls to concrete configurations'
+permalink: /profiles/
 ---
 
 ## Overview

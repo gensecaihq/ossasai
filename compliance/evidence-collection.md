@@ -1,5 +1,8 @@
 ---
-title: 'Evidence Collection'
+layout: default
+title: Evidence Collection
+parent: Compliance
+nav_order: 2
 description: 'Required evidence artifacts for OSSASAI compliance'
 ---
 

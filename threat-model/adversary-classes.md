@@ -1,5 +1,8 @@
 ---
-title: 'Adversary Classes'
+layout: default
+title: Adversary Classes
+parent: Threat Model
+nav_order: 2
 description: 'A1-A5 adversary taxonomy with capabilities and motivations'
 ---
 

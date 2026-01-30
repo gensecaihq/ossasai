@@ -1,5 +1,8 @@
 ---
-title: 'L2 Deployment Guide'
+layout: default
+title: L2 Deployment
+parent: Implementation
+nav_order: 3
 description: 'Network-aware deployment for teams and organizations'
 ---
 

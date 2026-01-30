@@ -1,5 +1,8 @@
 ---
-title: 'Compliance Workflow'
+layout: default
+title: Compliance Workflow
+parent: Specification
+nav_order: 4
 description: 'OSSASAI conformance assessment methodology, evidence requirements, and certification process'
 ---
 

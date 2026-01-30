@@ -1,5 +1,8 @@
 ---
-title: 'Control Plane (CP)'
+layout: default
+title: Control Plane (CP)
+parent: Controls
+nav_order: 3
 description: 'B2 boundary controls for admin access, exposure, and authentication'
 ---
 

@@ -1,5 +1,8 @@
 ---
-title: 'Compliance Reporting'
+layout: default
+title: Reporting
+parent: Compliance
+nav_order: 3
 description: 'Report templates and compliance statements'
 ---
 

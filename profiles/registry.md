@@ -1,5 +1,8 @@
 ---
-title: 'Profile Registry'
+layout: default
+title: Profile Registry
+parent: Profiles
+nav_order: 3
 description: 'Central registry of OSSASAI implementation profiles and compatibility tracking'
 ---
 

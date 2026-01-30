@@ -1,5 +1,8 @@
 ---
-title: 'AI Agent Threat Taxonomy'
+layout: default
+title: AI Agent Threats
+parent: Threat Model
+nav_order: 4
 description: 'AATT - Comprehensive taxonomy of AI-specific security threats'
 ---
 

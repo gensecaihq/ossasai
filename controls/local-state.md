@@ -1,5 +1,8 @@
 ---
-title: 'Local State (LS)'
+layout: default
+title: Local State (LS)
+parent: Controls
+nav_order: 6
 description: 'B4 boundary controls for secrets, logging, memory, and retention'
 ---
 

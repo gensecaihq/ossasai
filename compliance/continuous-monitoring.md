@@ -1,5 +1,8 @@
 ---
-title: 'Continuous Monitoring'
+layout: default
+title: Continuous Monitoring
+parent: Compliance
+nav_order: 4
 description: 'Ongoing compliance verification and maintenance'
 ---
 

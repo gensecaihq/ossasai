@@ -1,5 +1,8 @@
 ---
-title: 'Penetration Testing'
+layout: default
+title: Penetration Testing
+parent: Testing
+nav_order: 4
 description: 'Manual security testing procedures for OSSASAI controls'
 ---
 

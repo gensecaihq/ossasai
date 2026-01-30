@@ -1,5 +1,8 @@
 ---
-title: 'Attack Vectors'
+layout: default
+title: Attack Vectors
+parent: Threat Model
+nav_order: 3
 description: 'Attack surface analysis and entry point enumeration'
 ---
 

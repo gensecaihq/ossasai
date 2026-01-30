@@ -1,5 +1,8 @@
 ---
-title: 'Verification Procedures'
+layout: default
+title: Verification Procedures
+parent: Testing
+nav_order: 3
 description: 'Per-control verification steps and acceptance criteria'
 ---
 

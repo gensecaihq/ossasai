@@ -1,5 +1,8 @@
 ---
-title: 'Automated Audit'
+layout: default
+title: Automated Audit
+parent: Testing
+nav_order: 2
 description: 'Using the OSSASAI audit script for automated compliance checking'
 ---
 

@@ -1,5 +1,8 @@
 ---
-title: 'Hardening Checklist'
+layout: default
+title: Hardening Checklist
+parent: Implementation
+nav_order: 5
 description: 'Step-by-step security hardening procedures'
 ---
 
