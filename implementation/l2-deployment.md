@@ -21,7 +21,7 @@ L2 (Network-Aware) deployment extends L1 with controls for network-connected AI 
 
 ## Prerequisites
 
-- Complete [L1 deployment](/implementation/l1-deployment) first
+- Complete [L1 deployment](../implementation/l1-deployment) first
 - TLS certificates (self-signed for internal, CA-signed for production)
 - Understanding of network architecture
 
@@ -504,6 +504,6 @@ logging:
 
 ## Next Steps
 
-- [L3 Deployment](/implementation/l3-deployment) for high-assurance requirements
-- [Hardening Checklist](/implementation/hardening-checklist) for additional security
-- [CI/CD Integration](/implementation/ci-cd-integration) for automated compliance
+- [L3 Deployment](../implementation/l3-deployment) for high-assurance requirements
+- [Hardening Checklist](../implementation/hardening-checklist) for additional security
+- [CI/CD Integration](../implementation/ci-cd-integration) for automated compliance

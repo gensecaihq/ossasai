@@ -76,7 +76,7 @@ Example: OSSASAI-PROFILE-OPENCLAW-OCSAS-1.0.0
 
 The OSSASAI Profile Registry provides a central endpoint for profile management, version tracking, and change notifications. Profiles registered with the registry receive automatic notifications when framework changes may affect their implementations.
 
-### [Profile Registry](/profiles/registry)
+### [Profile Registry](../profiles/registry)
 
 Central registry of all OSSASAI profiles with compatibility tracking, webhook notifications, and API access.
 
@@ -91,7 +91,7 @@ Central registry of all OSSASAI profiles with compatibility tracking, webhook no
 ## Available Profiles
 
 
-  ### [OCSAS - OpenClaw Security Assurance Standard](/profiles/openclaw)
+  ### [OCSAS - OpenClaw Security Assurance Standard](../profiles/openclaw)
 
 Official OSSASAI implementation profile for OpenClaw agent runtime. Complete control mapping with CLI-based verification.
 
@@ -99,7 +99,7 @@ Official OSSASAI implementation profile for OpenClaw agent runtime. Complete con
     **Assurance Levels:** L1, L2, L3
     **Status:** Official
 
-  ### [Community Profiles](/profiles/registry)
+  ### [Community Profiles](../profiles/registry)
 
 Community-contributed profiles for other platforms. Register your profile to receive change notifications.
 
@@ -302,12 +302,12 @@ jsonschema -i your-profile.json \
   https://github.com/gensecaihq/ossasai/tree/main/appendices/schemas/profile.schema.json
 ```
 
-Schema documentation: [Profile Schema](/appendices/schemas/profile.schema.json)
+Schema documentation: [Profile Schema](../appendices/schemas/profile.schema.json)
 
 ## References
 
-- [Profile Registry](/profiles/registry)
-- [Profile Schema](/appendices/schemas/profile.schema.json)
-- [OSSASAI Specification](/spec/overview)
-- [Control Catalog](/controls/overview)
-- [Implementation Guides](/implementation/quickstart)
+- [Profile Registry](../profiles/registry)
+- [Profile Schema](../appendices/schemas/profile.schema.json)
+- [OSSASAI Specification](../spec/overview)
+- [Control Catalog](../controls/overview)
+- [Implementation Guides](../implementation/quickstart)

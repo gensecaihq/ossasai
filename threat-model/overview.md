@@ -147,7 +147,7 @@ OSSASAI defines five adversary classes based on capability, resources, and acces
 
 **Legend:** ● = Primary capability, ○ = Potential capability
 
-See [Adversary Classes](/threat-model/adversary-classes) for detailed profiles.
+See [Adversary Classes](../threat-model/adversary-classes) for detailed profiles.
 
 ## 4. Asset Classification
 
@@ -312,7 +312,7 @@ Where:
 
 ### 7.3 Blast Radius Calculation
 
-See [Risk Scoring](/threat-model/risk-scoring) for detailed blast radius methodology.
+See [Risk Scoring](../threat-model/risk-scoring) for detailed blast radius methodology.
 
 ## 8. Threat Model Maintenance
 
@@ -364,19 +364,19 @@ threat_model:
 ## 10. Related Documents
 
 
-  ### [Adversary Classes](/threat-model/adversary-classes)
+  ### [Adversary Classes](../threat-model/adversary-classes)
 
 Detailed adversary profiles (A1-A5) with capability matrices
 
-  ### [Attack Vectors](/threat-model/attack-vectors)
+  ### [Attack Vectors](../threat-model/attack-vectors)
 
 Entry points and attack surface analysis
 
-  ### [AI Agent Threats](/threat-model/ai-agent-threats)
+  ### [AI Agent Threats](../threat-model/ai-agent-threats)
 
 Complete AATT taxonomy with 20+ threat types
 
-  ### [Risk Scoring](/threat-model/risk-scoring)
+  ### [Risk Scoring](../threat-model/risk-scoring)
 
 Blast Radius quantification framework
 

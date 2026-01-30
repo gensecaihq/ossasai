@@ -70,7 +70,7 @@ Scope definition establishes the boundaries of the conformance assessment, ensur
 
   2. **Assurance Level Selection**
 
-   Determine the appropriate assurance level using the [level selection criteria](/spec/assurance-levels#level-selection-criteria):
+   Determine the appropriate assurance level using the [level selection criteria](../spec/assurance-levels#level-selection-criteria):
    
    ```
    Level Selection Decision:

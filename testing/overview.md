@@ -36,15 +36,15 @@ OSSASAI security testing combines automated verification with manual assessment 
 ## Testing Types
 
 
-  ### [Automated Audit](/testing/automated-audit)
+  ### [Automated Audit](../testing/automated-audit)
 
 Script-based verification of control implementation
 
-  ### [Penetration Testing](/testing/penetration-testing)
+  ### [Penetration Testing](../testing/penetration-testing)
 
 Manual adversarial testing against controls
 
-  ### [Verification Procedures](/testing/verification-procedures)
+  ### [Verification Procedures](../testing/verification-procedures)
 
 Per-control verification steps
 

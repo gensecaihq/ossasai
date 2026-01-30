@@ -339,7 +339,7 @@ OSSASAI makes explicit trust assumptions to bound the security model:
 
 ### Threat Model Integration
 
-OSSASAI controls address the threat model defined in [Threat Model Overview](/threat-model/overview), including:
+OSSASAI controls address the threat model defined in [Threat Model Overview](../threat-model/overview), including:
 
 - **Adversary Classes A1–A5**: From opportunistic to nation-state
 - **AI Agent Threat Taxonomy (AATT)**: Coercion, capability escalation, context manipulation, supply chain
@@ -365,7 +365,7 @@ A conformant Profile MUST include:
 ### Reference Profile
 
 
-  ### [OCSAS - OpenClaw Security Assurance Standard](/profiles/openclaw)
+  ### [OCSAS - OpenClaw Security Assurance Standard](../profiles/openclaw)
 
 Official OSSASAI implementation profile for OpenClaw agent runtime. Demonstrates complete control mapping with CLI-based verification.
 

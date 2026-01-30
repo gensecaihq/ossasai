@@ -45,7 +45,7 @@ Examples:
 ## Control Domains
 
 
-  ### [GEN: General](/controls/general)
+  ### [GEN: General](../controls/general)
 
 **Boundary:** All
 
@@ -53,7 +53,7 @@ Examples:
 
     **5 controls**
 
-  ### [CP: Control Plane](/controls/control-plane)
+  ### [CP: Control Plane](../controls/control-plane)
 
 **Boundary:** B2 (Control Plane)
 
@@ -61,7 +61,7 @@ Examples:
 
     **4 controls**
 
-  ### [ID: Identity & Session](/controls/identity-session)
+  ### [ID: Identity & Session](../controls/identity-session)
 
 **Boundary:** B1 (Inbound Identity)
 
@@ -69,7 +69,7 @@ Examples:
 
     **3 controls**
 
-  ### [TB: Tool Blast Radius](/controls/tool-blast-radius)
+  ### [TB: Tool Blast Radius](../controls/tool-blast-radius)
 
 **Boundary:** B3 (Tool)
 
@@ -77,7 +77,7 @@ Examples:
 
     **4 controls**
 
-  ### [LS: Local State](/controls/local-state)
+  ### [LS: Local State](../controls/local-state)
 
 **Boundary:** B4 (Local State)
 
@@ -85,7 +85,7 @@ Examples:
 
     **4 controls**
 
-  ### [SC: Supply Chain](/controls/supply-chain)
+  ### [SC: Supply Chain](../controls/supply-chain)
 
 **Boundary:** B3 (Tool)
 
@@ -93,7 +93,7 @@ Examples:
 
     **3 controls**
 
-  ### [FV: Formal Verification](/controls/formal-verification)
+  ### [FV: Formal Verification](../controls/formal-verification)
 
 **Boundary:** All
 
@@ -101,7 +101,7 @@ Examples:
 
     **3 controls**
 
-  ### [NS: Network Security](/controls/network-security)
+  ### [NS: Network Security](../controls/network-security)
 
 **Boundary:** B2, B3
 
@@ -400,7 +400,7 @@ mappings:
     documentation: "https://docs.openclaw.ai/gateway/security"
 ```
 
-### [OCSAS - OpenClaw Security Assurance Standard](/profiles/openclaw)
+### [OCSAS - OpenClaw Security Assurance Standard](../profiles/openclaw)
 
 Reference implementation profile demonstrating complete control-to-configuration mapping for the OpenClaw agent runtime.
 

@@ -616,8 +616,8 @@ curl https://ossasai.dev/api/v1/profiles/OSSASAI-PROFILE-OPENCLAW-OCSAS/compatib
 
 ## References
 
-- [Profile Registry](/profiles/registry)
+- [Profile Registry](../profiles/registry)
 - [OpenClaw Documentation](https://docs.openclaw.ai)
-- [OSSASAI Specification](/spec/overview)
-- [OSSASAI Control Catalog](/controls/overview)
-- [Implementation Guides](/implementation/quickstart)
+- [OSSASAI Specification](../spec/overview)
+- [OSSASAI Control Catalog](../controls/overview)
+- [Implementation Guides](../implementation/quickstart)

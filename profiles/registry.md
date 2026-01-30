@@ -35,7 +35,7 @@ https://ossasai.dev/api/v1/profiles
 ## Registered Profiles
 
 
-  ### [OCSAS](/profiles/openclaw)
+  ### [OCSAS](../profiles/openclaw)
 
 **OpenClaw Security Assurance Standard**
 
@@ -384,7 +384,7 @@ registry:
 
 ## References
 
-- [Profile Overview](/profiles/overview)
-- [OCSAS Profile](/profiles/openclaw)
-- [Control Catalog](/controls/overview)
-- [Framework Specification](/spec/overview)
+- [Profile Overview](../profiles/overview)
+- [OCSAS Profile](../profiles/openclaw)
+- [Control Catalog](../controls/overview)
+- [Framework Specification](../spec/overview)

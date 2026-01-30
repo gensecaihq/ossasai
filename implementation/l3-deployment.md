@@ -22,7 +22,7 @@ L3 (High-Assurance) deployment provides the highest level of security for AI ass
 
 ## Prerequisites
 
-- Complete [L2 deployment](/implementation/l2-deployment)
+- Complete [L2 deployment](../implementation/l2-deployment)
 - Security team involvement
 - Formal verification tooling
 - Hardware Security Module (HSM) access (recommended)
@@ -371,7 +371,7 @@ container:
 L3 requires third-party assessment:
 
 1. **Engage assessor** qualified for your regulatory requirements
-2. **Provide evidence** package per [evidence collection](/compliance/evidence-collection)
+2. **Provide evidence** package per [evidence collection](../compliance/evidence-collection)
 3. **Support assessment** with access and documentation
 4. **Address findings** before claiming compliance
 5. **Obtain attestation** from assessor

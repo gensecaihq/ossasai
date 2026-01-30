@@ -5,11 +5,11 @@ title: OSSASAI
 description: Open Security Standard for Agentic Systems - A vendor-neutral security framework for AI agents
 
 # GitHub Pages with just-the-docs theme
-remote_theme: just-the-docs/just-the-docs
+remote_theme: just-the-docs/just-the-docs@v0.8.2
 
-# URL configuration (GitHub Pages will set these)
-url: ""
-baseurl: ""
+# URL configuration for GitHub Pages project site
+url: "https://gensecaihq.github.io"
+baseurl: "/ossasai"
 
 # Exclude from build
 exclude:
@@ -24,10 +24,8 @@ exclude:
   - .claude/
   - LICENSE
   - README.md
-
-# Include these directories (for Jekyll to process)
-include:
-  - _config.yml
+  - CHANGELOG.md
+  - SECURITY.md
 
 # Color scheme
 color_scheme: light
@@ -54,7 +52,7 @@ back_to_top: true
 back_to_top_text: "Back to top"
 heading_anchors: true
 
-# Callouts (for just-the-docs styled blockquotes)
+# Callouts
 callouts_level: quiet
 callouts:
   note:
@@ -78,8 +76,9 @@ kramdown:
     block:
       line_numbers: false
 
-# Plugins
+# Plugins (GitHub Pages supported)
 plugins:
+  - jekyll-remote-theme
   - jekyll-seo-tag
   - jekyll-sitemap
 

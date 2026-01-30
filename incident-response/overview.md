@@ -42,15 +42,15 @@ This document establishes the incident response program for AI assistant securit
 ## Incident Types
 
 
-  ### [Playbooks](/incident-response/playbooks)
+  ### [Playbooks](../incident-response/playbooks)
 
 Detailed procedures for specific incident types
 
-  ### [Recovery](/incident-response/recovery)
+  ### [Recovery](../incident-response/recovery)
 
 System recovery and restoration procedures
 
-  ### [Post-Incident](/incident-response/post-incident)
+  ### [Post-Incident](../incident-response/post-incident)
 
 Lessons learned and improvement process
 

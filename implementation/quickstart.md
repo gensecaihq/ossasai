@@ -18,7 +18,7 @@ Before starting, ensure you have:
 - [ ] AI assistant installed and configured
 - [ ] Administrative access to configuration files
 - [ ] Access to audit script: `curl -sSL https://raw.githubusercontent.com/gensecaihq/ossasai/main/tools/ossasai-audit.sh -o ossasai-audit.sh`
-- [ ] Understanding of your [target assurance level](/spec/assurance-levels)
+- [ ] Understanding of your [target assurance level](../spec/assurance-levels)
 
 ## Quick Assessment
 
@@ -331,19 +331,19 @@ logging:
 ## Next Steps
 
 
-  ### [L1 Deployment Guide](/implementation/l1-deployment)
+  ### [L1 Deployment Guide](../implementation/l1-deployment)
 
 Detailed guide for local-first deployments
 
-  ### [L2 Deployment Guide](/implementation/l2-deployment)
+  ### [L2 Deployment Guide](../implementation/l2-deployment)
 
 Network-aware deployment with team features
 
-  ### [Hardening Checklist](/implementation/hardening-checklist)
+  ### [Hardening Checklist](../implementation/hardening-checklist)
 
 Comprehensive security hardening steps
 
-  ### [CI/CD Integration](/implementation/ci-cd-integration)
+  ### [CI/CD Integration](../implementation/ci-cd-integration)
 
 Automate compliance verification
 

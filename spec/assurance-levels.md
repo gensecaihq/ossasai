@@ -528,7 +528,7 @@ evidence:
 
 ### ISO/IEC 27001 Control Mapping
 
-OSSASAI controls map to ISO/IEC 27001:2022 Annex A controls. See [Standards Mapping](/appendices/standards-mapping) for complete correspondence table.
+OSSASAI controls map to ISO/IEC 27001:2022 Annex A controls. See [Standards Mapping](../appendices/standards-mapping) for complete correspondence table.
 
 ---
 

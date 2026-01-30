@@ -41,15 +41,15 @@ The OSSASAI compliance program provides a structured approach to achieving and m
 ## Documentation Requirements
 
 
-  ### [Evidence Collection](/compliance/evidence-collection)
+  ### [Evidence Collection](../compliance/evidence-collection)
 
 Required artifacts and evidence for each control
 
-  ### [Reporting](/compliance/reporting)
+  ### [Reporting](../compliance/reporting)
 
 Report templates and compliance statements
 
-  ### [Continuous Monitoring](/compliance/continuous-monitoring)
+  ### [Continuous Monitoring](../compliance/continuous-monitoring)
 
 Ongoing compliance verification
 

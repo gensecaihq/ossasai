@@ -402,4 +402,4 @@ After completing L1 deployment:
 
 1. **Monitor**: Review logs for blocked operations to identify policy gaps
 2. **Tune**: Adjust allowlists based on actual usage
-3. **Upgrade**: Consider [L2 deployment](/implementation/l2-deployment) for network features
+3. **Upgrade**: Consider [L2 deployment](../implementation/l2-deployment) for network features

@@ -213,7 +213,7 @@ Level: L2 NOT ACHIEVED
 
 ## CI/CD Integration
 
-See [CI/CD Integration](/implementation/ci-cd-integration) for detailed examples.
+See [CI/CD Integration](../implementation/ci-cd-integration) for detailed examples.
 
 ```bash
 # CI-friendly mode (exit codes)
