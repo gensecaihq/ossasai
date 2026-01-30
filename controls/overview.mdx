@@ -43,6 +43,13 @@ Examples:
 ## Control Domains
 
 <CardGroup cols={3}>
+  <Card title="GEN: General" icon="shield-halved" href="/controls/general">
+    **Boundary:** All
+
+    Security by default, fail secure, least privilege, defense in depth, audit logging
+
+    **5 controls**
+  </Card>
   <Card title="CP: Control Plane" icon="sliders" href="/controls/control-plane">
     **Boundary:** B2 (Control Plane)
 
@@ -74,9 +81,9 @@ Examples:
   <Card title="SC: Supply Chain" icon="link" href="/controls/supply-chain">
     **Boundary:** B3 (Tool)
 
-    Plugin trust, inventory management, reproducible builds
+    Plugin trust, inventory management, artifact signing
 
-    **2 controls**
+    **3 controls**
   </Card>
   <Card title="FV: Formal Verification" icon="microscope" href="/controls/formal-verification">
     **Boundary:** All
@@ -145,6 +152,12 @@ External References:
 
 | ID | Title | Req Level | L1 | L2 | L3 |
 |----|-------|-----------|:--:|:--:|:--:|
+| **General — Cross-cutting** |||||
+| OSSASAI-GEN-01 | Security by Default | MUST | ● | ● | ● |
+| OSSASAI-GEN-02 | Fail Secure | MUST | ● | ● | ● |
+| OSSASAI-GEN-03 | Principle of Least Privilege | MUST | ● | ● | ● |
+| OSSASAI-GEN-04 | Defense in Depth | SHOULD/MUST | ○ | ● | ● |
+| OSSASAI-GEN-05 | Audit Logging | SHOULD/MUST | ○ | ● | ● |
 | **B2 — Control Plane** |||||
 | OSSASAI-CP-01 | Default-Deny Control Plane Exposure | MUST | ● | ● | ● |
 | OSSASAI-CP-02 | Strong Administrative Authentication | MUST | ● | ● | ● |
@@ -167,6 +180,7 @@ External References:
 | **Supply Chain** |||||
 | OSSASAI-SC-01 | Explicit Plugin Trust and Inventory | MUST | | ● | ● |
 | OSSASAI-SC-02 | Reproducible Builds and Pinning | SHOULD/MUST | | ○ | ● |
+| OSSASAI-SC-03 | Artifact Signing and Attestation | SHOULD/MUST | | ○ | ● |
 | **Formal Verification (Optional)** |||||
 | OSSASAI-FV-01 | Security Invariant Formal Verification | SHOULD | | | ○ |
 | OSSASAI-FV-02 | Negative Model Regression Testing | SHOULD | | | ○ |
@@ -179,16 +193,23 @@ External References:
 
 **Legend:** ● = MUST implement, ○ = SHOULD implement, (blank) = Not applicable
 
+**Total Controls:** 30 (5 GEN + 4 CP + 3 ID + 4 TB + 4 LS + 3 SC + 3 FV + 4 NS)
+
 ## Controls by Assurance Level
 
 ### L1: Local-First Baseline
 
 **Deployment Profile:** Single operator, local administration, minimal network exposure
 
-**Required Controls (7 MUST):**
+**Required Controls (10 MUST + 3 SHOULD):**
 
 | Control ID | Title | Primary Threat Addressed |
 |------------|-------|-------------------------|
+| OSSASAI-GEN-01 | Security by Default | Insecure defaults (#1) |
+| OSSASAI-GEN-02 | Fail Secure | Security bypass on error (#4) |
+| OSSASAI-GEN-03 | Principle of Least Privilege | Over-privileged tools (#2) |
+| OSSASAI-GEN-04 | Defense in Depth (SHOULD) | Single point of failure (#5) |
+| OSSASAI-GEN-05 | Audit Logging (SHOULD) | Insufficient auditability (#9) |
 | OSSASAI-CP-01 | Default-Deny Control Plane Exposure | Control plane exposure (#3) |
 | OSSASAI-CP-02 | Strong Administrative Authentication | Weak authentication (#3) |
 | OSSASAI-ID-02 | Session Isolation by Default | Session boundary collapse (#4) |
@@ -201,10 +222,12 @@ External References:
 
 **Deployment Profile:** Remote access, team usage, network-exposed control plane
 
-**Additional Controls (12+ beyond L1):**
+**Additional Controls (15+ beyond L1):**
 
 | Control ID | Title | Primary Threat Addressed |
 |------------|-------|-------------------------|
+| OSSASAI-GEN-04 | Defense in Depth (MUST) | Single point of failure (#5) |
+| OSSASAI-GEN-05 | Audit Logging (MUST) | Insufficient auditability (#9) |
 | OSSASAI-CP-03 | Proxy Trust Boundary Configuration | Header spoofing attacks |
 | OSSASAI-CP-04 | Operator/Agent Identity Separation | Privilege confusion |
 | OSSASAI-ID-01 | Peer Verification for New Contacts | Unauthorized message processing |
@@ -216,6 +239,7 @@ External References:
 | OSSASAI-LS-04 | Retention and Deletion Guarantees | Data lifecycle risks |
 | OSSASAI-SC-01 | Explicit Plugin Trust and Inventory | Supply chain (#7) |
 | OSSASAI-SC-02 | Reproducible Builds (SHOULD) | Supply chain (#7) |
+| OSSASAI-SC-03 | Artifact Signing (SHOULD) | Supply chain (#7) |
 | OSSASAI-NS-01 | TLS Enforcement | Network interception |
 | OSSASAI-NS-02 | Certificate Validation | MITM attacks |
 | OSSASAI-NS-03 | API Endpoint Security | API abuse |
@@ -224,12 +248,13 @@ External References:
 
 **Deployment Profile:** Multi-tenant, plugin-rich, regulated data, broad external connectivity
 
-**Additional Controls (6+ beyond L2):**
+**Additional Controls (7+ beyond L2):**
 
 | Control ID | Title | Primary Threat Addressed |
 |------------|-------|-------------------------|
 | OSSASAI-ID-03 | Group/Channel Policy Hardening (MUST) | Group coercion attacks |
 | OSSASAI-SC-02 | Reproducible Builds (MUST) | Supply chain (#7) |
+| OSSASAI-SC-03 | Artifact Signing (MUST) | Supply chain (#7) |
 | OSSASAI-FV-01 | Security Invariant Verification (SHOULD) | Logic errors |
 | OSSASAI-FV-02 | Negative Model Regression (SHOULD) | Regression introduction |
 | OSSASAI-FV-03 | CI/CD Integration (SHOULD) | Continuous assurance |
@@ -241,16 +266,16 @@ Controls are mapped to the OSSASAI Top 10 failure modes derived from empirical i
 
 | # | Failure Mode | Primary Controls | Coverage |
 |:-:|--------------|------------------|----------|
-| 1 | **Prompt Injection → Tool Misuse** | TB-01, TB-02, ID-02 | Direct |
-| 2 | **Over-Privileged Tools** | TB-01, TB-02, TB-04 | Direct |
+| 1 | **Prompt Injection → Tool Misuse** | TB-01, TB-02, ID-02, GEN-01 | Direct |
+| 2 | **Over-Privileged Tools** | TB-01, TB-02, TB-04, GEN-03 | Direct |
 | 3 | **Control Plane Exposure** | CP-01, CP-02, CP-03 | Direct |
-| 4 | **Session Boundary Collapse** | ID-02, ID-03 | Direct |
-| 5 | **Secrets Exfiltration** | LS-01, LS-02 | Direct |
+| 4 | **Session Boundary Collapse** | ID-02, ID-03, GEN-02 | Direct |
+| 5 | **Secrets Exfiltration** | LS-01, LS-02, GEN-04 | Direct |
 | 6 | **Unsafe External Connectivity** | TB-03, TB-04 | Direct |
-| 7 | **Extension Supply Chain** | SC-01, SC-02 | Direct |
+| 7 | **Extension Supply Chain** | SC-01, SC-02, SC-03 | Direct |
 | 8 | **Memory Poisoning** | LS-03 | Direct |
-| 9 | **Insufficient Auditability** | TB-02, LS-04 | Direct |
-| 10 | **Configuration Drift** | CP-01, CP-02 | Indirect |
+| 9 | **Insufficient Auditability** | TB-02, LS-04, GEN-05 | Direct |
+| 10 | **Configuration Drift** | CP-01, CP-02, GEN-01 | Indirect |
 
 ## Control Dependency Graph
 
@@ -321,6 +346,11 @@ These controls form the security foundation and SHOULD be implemented first:
 
 | Domain | Artifact | Description | Controls |
 |--------|----------|-------------|----------|
+| GEN | Default Configuration Audit | Fresh install security baseline | GEN-01 |
+| GEN | Error Handling Tests | Fail-secure behavior verification | GEN-02 |
+| GEN | Privilege Audit | Runtime permission analysis | GEN-03 |
+| GEN | Defense Layer Analysis | Control redundancy documentation | GEN-04 |
+| GEN | Audit Log Samples | Security event log evidence | GEN-05 |
 | CP | Exposure Report | Admin surface reachability analysis | CP-01, CP-02, CP-03 |
 | CP | Auth Configuration | Authentication mechanism evidence | CP-02, CP-04 |
 | ID | Session Isolation Tests | Cross-context leakage test results | ID-02, ID-03 |
@@ -328,6 +358,7 @@ These controls form the security foundation and SHOULD be implemented first:
 | LS | Secrets Posture | Credential storage and permissions | LS-01 |
 | LS | Redaction Tests | Log analysis for sensitive patterns | LS-02 |
 | SC | Extension Inventory | Plugin list with provenance | SC-01, SC-02 |
+| SC | Signature Verification Logs | Artifact signing verification evidence | SC-03 |
 | FV | Model Artifacts | TLA+/TLC outputs and counterexamples | FV-01, FV-02 |
 | NS | TLS Assessment | Certificate and protocol verification | NS-01, NS-02 |
 

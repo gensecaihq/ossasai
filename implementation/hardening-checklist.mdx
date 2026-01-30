@@ -351,24 +351,41 @@ spec:
 ```bash
 #!/bin/bash
 # quick-security-check.sh
+# Cross-platform security quick check script
 
 echo "=== OSSASAI Security Quick Check ==="
 
+# Helper function for cross-platform file permissions
+get_perms() {
+    local file="$1"
+    if [[ "$(uname -s)" == "Darwin" ]]; then
+        stat -f "%Lp" "$file" 2>/dev/null || echo "000"
+    else
+        stat -c "%a" "$file" 2>/dev/null || echo "000"
+    fi
+}
+
 # Check running user
 echo -n "Running as non-root: "
-[ $(id -u) -ne 0 ] && echo "PASS" || echo "FAIL"
+[ "$(id -u)" -ne 0 ] && echo "PASS" || echo "FAIL"
 
-# Check file permissions
+# Check file permissions (cross-platform)
+CONFIG_FILE="/etc/ossasai/config.yaml"
 echo -n "Config file permissions: "
-[ $(stat -c %a /etc/ocsas/config.yaml) -le 600 ] && echo "PASS" || echo "FAIL"
+if [ -f "$CONFIG_FILE" ]; then
+    perms=$(get_perms "$CONFIG_FILE")
+    [ "$perms" -le 600 ] && echo "PASS ($perms)" || echo "FAIL ($perms)"
+else
+    echo "SKIP (file not found)"
+fi
 
 # Check TLS
 echo -n "TLS enabled: "
-grep -q "tls.*required.*true" /etc/ocsas/config.yaml && echo "PASS" || echo "FAIL"
+grep -q "tls.*required.*true\|tls.*enabled.*true" "$CONFIG_FILE" 2>/dev/null && echo "PASS" || echo "FAIL"
 
 # Check authentication
 echo -n "Authentication required: "
-grep -q "authentication.*required.*true" /etc/ocsas/config.yaml && echo "PASS" || echo "FAIL"
+grep -q "authentication.*required.*true\|auth.*required.*true" "$CONFIG_FILE" 2>/dev/null && echo "PASS" || echo "FAIL"
 
 # Run full audit
 echo ""

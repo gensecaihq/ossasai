@@ -282,3 +282,215 @@ openclaw plugins sbom --format spdx > evidence/sbom.spdx.json
 - NIST SP 800-53 SA-10: Developer Configuration Management
 
 </Card>
+
+---
+
+## OSSASAI-SC-03: Artifact Signing and Attestation
+
+<Card>
+### Metadata
+
+| Attribute | Value |
+|-----------|-------|
+| **Control ID** | OSSASAI-SC-03 |
+| **Requirement Level** | SHOULD (L2), MUST (L3) |
+| **Assurance Levels** | L2 (SHOULD), L3 (MUST) |
+| **Trust Boundary** | Cross-cutting |
+| **OSSASAI Top 10** | #7 (Extension supply chain) |
+
+### Requirement
+
+High-assurance deployments SHOULD (L2) / MUST (L3) verify cryptographic signatures on plugins, updates, and binary artifacts before installation or execution. Signature verification failures MUST block artifact use at L3.
+
+### Evidence
+
+- Signature verification configuration showing trusted keys/identities
+- Verification logs demonstrating signature checks on artifact installation
+- Trusted key/identity inventory documentation
+
+### Checks
+
+- Signed artifacts pass verification
+- Unsigned artifacts are rejected (L3) or warned (L2)
+- Invalid signatures are rejected at all levels
+- Key/identity trust chain is documented
+
+```bash
+# Verification commands
+# Verify plugin signatures
+openclaw plugins verify --signatures
+
+# Check Sigstore verification
+cosign verify-blob --signature plugin.sig --certificate plugin.crt plugin.tar.gz
+
+# Verify PGP signatures
+gpg --verify plugin.sig plugin.tar.gz
+
+# Test rejection of unsigned artifacts
+openclaw plugins install unsigned-plugin
+# Should fail at L3, warn at L2
+```
+
+### Remediation
+
+<Tabs>
+  <Tab title="Sigstore Verification">
+    Configure Sigstore/Cosign verification:
+    ```yaml
+    signing:
+      verification:
+        enabled: true
+        required: true  # MUST for L3
+
+      methods:
+        - type: "sigstore"
+          rekor_url: "https://rekor.sigstore.dev"
+          fulcio_url: "https://fulcio.sigstore.dev"
+
+          trusted_identities:
+            - email: "release@ossasai.dev"
+              issuer: "https://accounts.google.com"
+            - email: "plugins@verified-vendor.com"
+              issuer: "https://token.actions.githubusercontent.com"
+              subject_claim: "repo:verified-vendor/plugin:ref:refs/heads/main"
+
+          # SLSA attestation verification
+          attestation:
+            require_slsa: true
+            minimum_level: "slsa3"  # L3 recommended
+    ```
+
+    ```bash
+    # Verify with Cosign
+    cosign verify \
+      --certificate-identity release@ossasai.dev \
+      --certificate-oidc-issuer https://accounts.google.com \
+      ghcr.io/ossasai/plugin:latest
+
+    # Verify SLSA attestation
+    slsa-verifier verify-artifact plugin.tar.gz \
+      --provenance-path plugin.intoto.jsonl \
+      --source-uri github.com/ossasai/plugin
+    ```
+  </Tab>
+  <Tab title="PGP Verification">
+    Configure PGP signature verification:
+    ```yaml
+    signing:
+      methods:
+        - type: "pgp"
+          keyserver: "hkps://keys.openpgp.org"
+
+          trusted_keys:
+            - id: "OSSASAI-RELEASE-KEY"
+              fingerprint: "1234 5678 9ABC DEF0 1234 5678 9ABC DEF0 1234 5678"
+              url: "https://ossasai.dev/keys/release.asc"
+
+            - id: "VENDOR-PLUGIN-KEY"
+              fingerprint: "ABCD EF01 2345 6789 ABCD EF01 2345 6789 ABCD EF01"
+
+          verification:
+            require_trusted_key: true
+            check_expiration: true
+            check_revocation: true
+    ```
+
+    ```bash
+    # Import trusted keys
+    curl -sSL https://ossasai.dev/keys/release.asc | gpg --import
+
+    # Verify signature
+    gpg --verify plugin.tar.gz.asc plugin.tar.gz
+
+    # Check key trust
+    gpg --list-keys --with-colons | grep -E "^pub.*:f:"
+    ```
+  </Tab>
+  <Tab title="Artifact Policy">
+    Configure artifact acceptance policy:
+    ```yaml
+    signing:
+      artifacts:
+        plugins:
+          signature_required: true    # Always require for plugins
+          allowed_signers:
+            - "ossasai-official"
+            - "verified-vendors"
+
+        updates:
+          signature_required: true    # Always require for updates
+          allowed_signers:
+            - "ossasai-official"
+
+        dependencies:
+          signature_required: false   # Use integrity hashes
+          integrity_required: true
+          lockfile_required: true
+
+      # Enforcement behavior
+      enforcement:
+        on_missing_signature:
+          L2: "warn"
+          L3: "block"
+        on_invalid_signature:
+          all: "block"
+        on_untrusted_signer:
+          L2: "warn"
+          L3: "block"
+        on_expired_signature:
+          all: "block"
+    ```
+  </Tab>
+  <Tab title="Key Management">
+    Establish key management procedures:
+    ```yaml
+    signing:
+      key_management:
+        # Key rotation
+        rotation:
+          schedule: "annual"
+          overlap_period: "30d"
+          notify_before: "60d"
+
+        # Key storage (L3)
+        storage:
+          type: "hsm"  # Recommended for L3
+          backup: "encrypted_offline"
+
+        # Trust establishment
+        trust:
+          ceremony_required: true
+          witnesses_required: 2
+          document_chain: true
+
+        # Revocation
+        revocation:
+          publish_to: ["keyserver", "website"]
+          notify_dependents: true
+          grace_period: "7d"
+    ```
+
+    ```bash
+    # Generate signing key (offline machine)
+    gpg --full-generate-key --expert
+
+    # Export public key
+    gpg --armor --export KEYID > release.asc
+
+    # Publish to keyserver
+    gpg --send-keys KEYID
+
+    # Create revocation certificate (store securely)
+    gpg --gen-revoke KEYID > revoke.asc
+    ```
+  </Tab>
+</Tabs>
+
+### References
+
+- SLSA v1.0: Supply-chain Levels for Software Artifacts
+- Sigstore: Software Signing Made Easy
+- NIST SP 800-53 SA-12: Supply Chain Risk Management
+- The Update Framework (TUF) Specification
+
+</Card>

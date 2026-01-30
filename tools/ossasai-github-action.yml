@@ -1,5 +1,5 @@
 # OSSASAI Compliance GitHub Action
-# Add this to your repository: .github/workflows/ocsas-compliance.yml
+# Add this to your repository: .github/workflows/ossasai-compliance.yml
 #
 # This workflow runs OSSASAI compliance checks on every push and PR,
 # and generates compliance reports as artifacts.
@@ -12,7 +12,7 @@ on:
   pull_request:
     branches: [main]
   schedule:
-    # Run weekly on Sunday at midnight
+    # Run weekly on Sunday at midnight UTC
     - cron: '0 0 * * 0'
   workflow_dispatch:
     inputs:
@@ -27,7 +27,7 @@ on:
           - L3
 
 env:
-  OSSASAI_VERSION: '1.0.0'
+  OSSASAI_VERSION: '2.0.0'
 
 jobs:
   compliance-check:
@@ -36,6 +36,11 @@ jobs:
     permissions:
       contents: read
       security-events: write
+      pull-requests: write
+
+    outputs:
+      status: ${{ steps.audit.outputs.status }}
+      compliance: ${{ steps.audit.outputs.compliance }}
 
     steps:
       - name: Checkout repository
@@ -50,15 +55,23 @@ jobs:
         run: |
           pip install pyyaml
 
-      - name: Download OSSASAI audit tools
+      - name: Locate OSSASAI audit tools
+        id: tools
         run: |
-          # In production, download from official source
-          # curl -sSL https://ocsas.dev/audit.sh -o ocsas-audit.sh
-          # For now, use local tools if available
-          if [ -f "tools/ocsas-audit.sh" ]; then
-            cp tools/ocsas-audit.sh ./ocsas-audit.sh
+          # Check for local tools first
+          if [ -f "tools/ossasai-audit.sh" ]; then
+            echo "audit_script=tools/ossasai-audit.sh" >> $GITHUB_OUTPUT
+            echo "report_script=tools/ossasai-report.py" >> $GITHUB_OUTPUT
+            chmod +x tools/ossasai-audit.sh
+          elif [ -f "ossasai-audit.sh" ]; then
+            echo "audit_script=./ossasai-audit.sh" >> $GITHUB_OUTPUT
+            echo "report_script=./ossasai-report.py" >> $GITHUB_OUTPUT
+            chmod +x ossasai-audit.sh
+          else
+            echo "::error::OSSASAI audit tools not found"
+            echo "audit_script=" >> $GITHUB_OUTPUT
+            exit 1
           fi
-          chmod +x ocsas-audit.sh || true
 
       - name: Determine assurance level
         id: level
@@ -72,133 +85,237 @@ jobs:
 
       - name: Run OSSASAI audit
         id: audit
-        continue-on-error: true
         run: |
-          # Run audit and capture output
-          if [ -f "./ocsas-audit.sh" ]; then
-            ./ocsas-audit.sh --level ${{ steps.level.outputs.level }} \
-              --output-format json > audit-results.json 2>&1 || true
+          AUDIT_SCRIPT="${{ steps.tools.outputs.audit_script }}"
+
+          if [ -z "$AUDIT_SCRIPT" ] || [ ! -f "$AUDIT_SCRIPT" ]; then
+            echo "::error::Audit script not available"
+            echo "status=error" >> $GITHUB_OUTPUT
+            echo "compliance=0" >> $GITHUB_OUTPUT
+            exit 1
+          fi
+
+          # Run audit - capture exit code properly
+          set +e
+          "$AUDIT_SCRIPT" --level ${{ steps.level.outputs.level }} \
+            --output-format json > audit-results.json 2>&1
+          AUDIT_EXIT=$?
+          set -e
+
+          # Validate output is valid JSON
+          if ! jq empty audit-results.json 2>/dev/null; then
+            echo "::error::Audit produced invalid JSON output"
+            cat audit-results.json
+            echo "status=error" >> $GITHUB_OUTPUT
+            echo "compliance=0" >> $GITHUB_OUTPUT
+            exit 1
+          fi
+
+          # Extract results
+          failing=$(jq -r '.summary.failing // 0' audit-results.json)
+          compliance=$(jq -r '.summary.compliance_percentage // 0' audit-results.json)
+
+          echo "compliance=$compliance" >> $GITHUB_OUTPUT
+
+          if [ "$failing" -gt 0 ]; then
+            echo "status=failed" >> $GITHUB_OUTPUT
+            echo "::warning::OSSASAI compliance check found $failing failing controls"
           else
-            # Create minimal audit results for demo
-            echo '{"summary":{"total_controls":0,"passing":0,"failing":0,"compliance_percentage":0}}' > audit-results.json
+            echo "status=passed" >> $GITHUB_OUTPUT
+            echo "OSSASAI compliance check passed"
           fi
 
-          # Check if audit passed
-          if [ -f "audit-results.json" ]; then
-            failing=$(jq '.summary.failing // 0' audit-results.json)
-            if [ "$failing" -gt 0 ]; then
-              echo "status=failed" >> $GITHUB_OUTPUT
-            else
-              echo "status=passed" >> $GITHUB_OUTPUT
-            fi
-          fi
-
-      - name: Generate compliance report
+      - name: Generate text report
+        if: always() && steps.tools.outputs.report_script != ''
         run: |
-          if [ -f "tools/ocsas-report.py" ]; then
-            python tools/ocsas-report.py \
+          REPORT_SCRIPT="${{ steps.tools.outputs.report_script }}"
+          if [ -f "$REPORT_SCRIPT" ] && [ -f "audit-results.json" ]; then
+            python "$REPORT_SCRIPT" \
               --assessment audit-results.json \
               --format text \
               --output compliance-report.txt
           fi
 
       - name: Generate JUnit report
+        if: always() && steps.tools.outputs.report_script != ''
         run: |
-          if [ -f "tools/ocsas-report.py" ]; then
-            python tools/ocsas-report.py \
+          REPORT_SCRIPT="${{ steps.tools.outputs.report_script }}"
+          if [ -f "$REPORT_SCRIPT" ] && [ -f "audit-results.json" ]; then
+            python "$REPORT_SCRIPT" \
               --assessment audit-results.json \
               --format junit \
               --output junit-report.xml
           fi
 
+      - name: Generate YAML compliance statement
+        if: always() && steps.tools.outputs.report_script != ''
+        run: |
+          REPORT_SCRIPT="${{ steps.tools.outputs.report_script }}"
+          if [ -f "$REPORT_SCRIPT" ] && [ -f "audit-results.json" ]; then
+            python "$REPORT_SCRIPT" \
+              --assessment audit-results.json \
+              --format yaml \
+              --output compliance-statement.yaml
+          fi
+
       - name: Upload audit results
+        if: always()
         uses: actions/upload-artifact@v4
         with:
-          name: ocsas-audit-results
+          name: ossasai-audit-results
           path: |
             audit-results.json
             compliance-report.txt
+            compliance-statement.yaml
             junit-report.xml
-          retention-days: 30
+          retention-days: 90
+          if-no-files-found: warn
 
       - name: Publish test results
+        if: always() && hashFiles('junit-report.xml') != ''
         uses: dorny/test-reporter@v1
-        if: always()
         with:
           name: OSSASAI Compliance Results
           path: junit-report.xml
           reporter: java-junit
-          fail-on-error: false
+          fail-on-error: true
 
       - name: Comment on PR
-        if: github.event_name == 'pull_request'
+        if: github.event_name == 'pull_request' && always()
         uses: actions/github-script@v7
         with:
           script: |
             const fs = require('fs');
 
-            let summary = 'OSSASAI compliance check completed.';
+            const status = '${{ steps.audit.outputs.status }}';
+            const level = '${{ steps.level.outputs.level }}';
+            let summary = '';
+
             try {
-              const results = JSON.parse(fs.readFileSync('audit-results.json', 'utf8'));
-              const pct = results.summary?.compliance_percentage || 0;
-              const passed = results.summary?.passing || 0;
-              const failed = results.summary?.failing || 0;
-              const total = results.summary?.total_controls || 0;
+              if (fs.existsSync('audit-results.json')) {
+                const results = JSON.parse(fs.readFileSync('audit-results.json', 'utf8'));
+                const pct = results.summary?.compliance_percentage || 0;
+                const passed = results.summary?.passing || 0;
+                const failed = results.summary?.failing || 0;
+                const skipped = results.summary?.skipped || 0;
+                const total = results.summary?.total_controls || 0;
+                const applicable = results.summary?.applicable || total;
 
-              const status = failed === 0 ? '✅ PASSED' : '❌ FAILED';
+                const statusEmoji = failed === 0 ? '✅' : '❌';
+                const statusText = failed === 0 ? 'PASSED' : 'FAILED';
 
-              summary = `## OSSASAI Compliance Report ${status}
+                summary = `## ${statusEmoji} OSSASAI Compliance Report - ${statusText}
 
-              | Metric | Value |
-              |--------|-------|
-              | Compliance | ${pct}% |
-              | Passed | ${passed}/${total} |
-              | Failed | ${failed} |
-              | Level | ${{ steps.level.outputs.level }} |
-              `;
+            **Target Level:** ${level}
+
+            | Metric | Value |
+            |--------|-------|
+            | Compliance | ${pct}% |
+            | Passed | ${passed}/${applicable} |
+            | Failed | ${failed} |
+            | Skipped | ${skipped} |
+
+            <details>
+            <summary>View full report</summary>
+
+            Download the compliance report artifact for detailed findings.
+
+            </details>
+            `;
+              } else {
+                summary = `## ⚠️ OSSASAI Compliance Report - Error
+
+            Could not generate compliance report. Check the workflow logs for details.
+            `;
+              }
             } catch (e) {
-              summary = '⚠️ Could not parse audit results';
+              summary = `## ⚠️ OSSASAI Compliance Report - Error
+
+            Error parsing audit results: ${e.message}
+            `;
             }
 
-            github.rest.issues.createComment({
+            // Check for existing comment to update
+            const { data: comments } = await github.rest.issues.listComments({
               issue_number: context.issue.number,
               owner: context.repo.owner,
               repo: context.repo.repo,
-              body: summary
             });
 
-      - name: Check compliance status
+            const botComment = comments.find(c =>
+              c.user.type === 'Bot' &&
+              c.body.includes('OSSASAI Compliance Report')
+            );
+
+            if (botComment) {
+              await github.rest.issues.updateComment({
+                comment_id: botComment.id,
+                owner: context.repo.owner,
+                repo: context.repo.repo,
+                body: summary
+              });
+            } else {
+              await github.rest.issues.createComment({
+                issue_number: context.issue.number,
+                owner: context.repo.owner,
+                repo: context.repo.repo,
+                body: summary
+              });
+            }
+
+      - name: Enforce compliance
         if: steps.audit.outputs.status == 'failed'
         run: |
-          echo "::error::OSSASAI compliance check failed"
-          # Optionally fail the workflow
-          # exit 1
+          echo "::error::OSSASAI compliance check failed for level ${{ steps.level.outputs.level }}"
+          echo ""
+          echo "Review the compliance report artifact for details on failing controls."
+          echo "Run locally with: ./tools/ossasai-audit.sh --level ${{ steps.level.outputs.level }} --verbose"
+          exit 1
 
   dependency-scan:
     name: Dependency Security Scan
     runs-on: ubuntu-latest
     needs: compliance-check
+    if: always() && needs.compliance-check.result != 'cancelled'
 
     steps:
       - uses: actions/checkout@v4
 
       - name: Generate SBOM
+        id: sbom
         run: |
-          # Generate SBOM using available tools
-          if command -v npm &> /dev/null && [ -f "package.json" ]; then
-            npx @cyclonedx/cyclonedx-npm --output sbom.json
-          elif command -v pip &> /dev/null && [ -f "requirements.txt" ]; then
-            pip install cyclonedx-bom
-            cyclonedx-py -r requirements.txt -o sbom.json
-          else
-            echo '{"components":[]}' > sbom.json
+          SBOM_GENERATED=false
+
+          # Try npm
+          if [ -f "package.json" ] && command -v npm &> /dev/null; then
+            npm install -g @cyclonedx/cyclonedx-npm 2>/dev/null || true
+            if command -v cyclonedx-npm &> /dev/null; then
+              cyclonedx-npm --output sbom.json && SBOM_GENERATED=true
+            fi
           fi
+
+          # Try pip
+          if [ "$SBOM_GENERATED" != "true" ] && [ -f "requirements.txt" ]; then
+            pip install cyclonedx-bom 2>/dev/null || true
+            if command -v cyclonedx-py &> /dev/null; then
+              cyclonedx-py -r requirements.txt -o sbom.json && SBOM_GENERATED=true
+            fi
+          fi
+
+          # Create minimal SBOM if nothing else worked
+          if [ "$SBOM_GENERATED" != "true" ]; then
+            echo "::warning::Could not generate SBOM - no supported package manager found"
+            echo '{"bomFormat":"CycloneDX","specVersion":"1.4","version":1,"components":[]}' > sbom.json
+          fi
+
+          echo "generated=$SBOM_GENERATED" >> $GITHUB_OUTPUT
 
       - name: Upload SBOM
         uses: actions/upload-artifact@v4
         with:
           name: sbom
           path: sbom.json
+          retention-days: 90
 
   scheduled-report:
     name: Generate Scheduled Report
@@ -212,9 +329,24 @@ jobs:
       - name: Download audit results
         uses: actions/download-artifact@v4
         with:
-          name: ocsas-audit-results
+          name: ossasai-audit-results
 
-      - name: Generate weekly report
+      - name: Generate weekly summary
         run: |
-          echo "Weekly OSSASAI compliance report generated"
-          # Add notification logic here (Slack, email, etc.)
+          echo "============================================"
+          echo "OSSASAI Weekly Compliance Report"
+          echo "============================================"
+          echo "Date: $(date -u +%Y-%m-%dT%H:%M:%SZ)"
+          echo ""
+
+          if [ -f "compliance-report.txt" ]; then
+            cat compliance-report.txt
+          else
+            echo "No compliance report available"
+          fi
+
+          # Add notification integration here
+          # Examples:
+          # - Slack: curl -X POST -H 'Content-type: application/json' --data '...' $SLACK_WEBHOOK_URL
+          # - Email: Use a GitHub Action for sending emails
+          # - PagerDuty: Create incident if compliance fails

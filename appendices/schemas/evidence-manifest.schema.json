@@ -1,0 +1,284 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://ossasai.dev/schemas/evidence-manifest.schema.json",
+  "title": "OSSASAI Evidence Manifest",
+  "description": "Schema for OSSASAI compliance evidence package manifests",
+  "type": "object",
+  "required": ["manifest", "assessment", "evidence"],
+  "properties": {
+    "manifest": {
+      "type": "object",
+      "description": "Manifest metadata",
+      "required": ["schema_version", "created_at", "created_by"],
+      "properties": {
+        "schema_version": {
+          "type": "string",
+          "pattern": "^\\d+\\.\\d+\\.\\d+$",
+          "description": "Schema version (semver)"
+        },
+        "created_at": {
+          "type": "string",
+          "format": "date-time",
+          "description": "ISO 8601 timestamp of manifest creation"
+        },
+        "created_by": {
+          "type": "string",
+          "description": "Tool or entity that created this manifest"
+        },
+        "organization": {
+          "type": "string",
+          "description": "Organization name"
+        }
+      }
+    },
+    "assessment": {
+      "type": "object",
+      "description": "Assessment details",
+      "required": ["id", "assurance_level", "date", "status"],
+      "properties": {
+        "id": {
+          "type": "string",
+          "description": "Unique assessment identifier"
+        },
+        "assurance_level": {
+          "type": "string",
+          "enum": ["L1", "L2", "L3"],
+          "description": "Target OSSASAI assurance level"
+        },
+        "date": {
+          "type": "string",
+          "format": "date",
+          "description": "Assessment date"
+        },
+        "status": {
+          "type": "string",
+          "enum": ["conformant", "non_conformant", "partial"],
+          "description": "Overall compliance status"
+        },
+        "profile": {
+          "type": "string",
+          "description": "OSSASAI profile used (e.g., OCSAS)"
+        },
+        "tool_version": {
+          "type": "string",
+          "description": "Version of audit tool used"
+        },
+        "assessor": {
+          "type": "object",
+          "properties": {
+            "type": {
+              "type": "string",
+              "enum": ["self", "third_party"],
+              "description": "Assessment type"
+            },
+            "name": {
+              "type": "string",
+              "description": "Assessor name or organization"
+            },
+            "certification": {
+              "type": "string",
+              "description": "Assessor certification/accreditation"
+            }
+          }
+        }
+      }
+    },
+    "summary": {
+      "type": "object",
+      "description": "Assessment summary statistics",
+      "properties": {
+        "total_controls": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "applicable_controls": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "passing": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "failing": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "skipped": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "compliance_percentage": {
+          "type": "number",
+          "minimum": 0,
+          "maximum": 100
+        }
+      }
+    },
+    "evidence": {
+      "type": "array",
+      "description": "Evidence artifacts",
+      "items": {
+        "type": "object",
+        "required": ["control_id", "artifact_type", "path"],
+        "properties": {
+          "control_id": {
+            "type": "string",
+            "pattern": "^OSSASAI-[A-Z]{2,3}-\\d{2}$",
+            "description": "OSSASAI control ID"
+          },
+          "artifact_type": {
+            "type": "string",
+            "enum": [
+              "config_snapshot",
+              "log_sample",
+              "test_result",
+              "screenshot",
+              "audit_report",
+              "certificate",
+              "policy_document",
+              "network_scan",
+              "sbom",
+              "signature",
+              "other"
+            ],
+            "description": "Type of evidence artifact"
+          },
+          "path": {
+            "type": "string",
+            "description": "Relative path to artifact within evidence package"
+          },
+          "description": {
+            "type": "string",
+            "description": "Human-readable description of the evidence"
+          },
+          "collected_at": {
+            "type": "string",
+            "format": "date-time",
+            "description": "When the evidence was collected"
+          },
+          "hash": {
+            "type": "object",
+            "description": "Integrity hash of the artifact",
+            "properties": {
+              "algorithm": {
+                "type": "string",
+                "enum": ["sha256", "sha384", "sha512"]
+              },
+              "value": {
+                "type": "string"
+              }
+            }
+          },
+          "verification_status": {
+            "type": "string",
+            "enum": ["pass", "fail", "partial", "not_verified"],
+            "description": "Result of evidence verification"
+          },
+          "notes": {
+            "type": "string",
+            "description": "Additional notes or context"
+          }
+        }
+      }
+    },
+    "controls": {
+      "type": "array",
+      "description": "Per-control assessment results",
+      "items": {
+        "type": "object",
+        "required": ["id", "status"],
+        "properties": {
+          "id": {
+            "type": "string",
+            "pattern": "^OSSASAI-[A-Z]{2,3}-\\d{2}$"
+          },
+          "title": {
+            "type": "string"
+          },
+          "status": {
+            "type": "string",
+            "enum": ["pass", "fail", "skip", "warn", "not_applicable"]
+          },
+          "finding": {
+            "type": "string",
+            "description": "Details of finding if not passing"
+          },
+          "evidence_refs": {
+            "type": "array",
+            "items": {
+              "type": "integer"
+            },
+            "description": "Indices into the evidence array"
+          },
+          "remediation": {
+            "type": "string",
+            "description": "Recommended remediation if failing"
+          }
+        }
+      }
+    },
+    "exceptions": {
+      "type": "array",
+      "description": "Documented control exceptions",
+      "items": {
+        "type": "object",
+        "required": ["control_id", "justification", "approved_by"],
+        "properties": {
+          "control_id": {
+            "type": "string"
+          },
+          "justification": {
+            "type": "string",
+            "description": "Business justification for exception"
+          },
+          "compensating_controls": {
+            "type": "string",
+            "description": "Alternative controls in place"
+          },
+          "risk_acceptance": {
+            "type": "string",
+            "description": "Accepted residual risk"
+          },
+          "approved_by": {
+            "type": "string",
+            "description": "Name/role of approver"
+          },
+          "approved_date": {
+            "type": "string",
+            "format": "date"
+          },
+          "expiration_date": {
+            "type": "string",
+            "format": "date"
+          }
+        }
+      }
+    },
+    "signatures": {
+      "type": "array",
+      "description": "Digital signatures for manifest integrity",
+      "items": {
+        "type": "object",
+        "properties": {
+          "signer": {
+            "type": "string"
+          },
+          "timestamp": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "algorithm": {
+            "type": "string"
+          },
+          "signature": {
+            "type": "string"
+          },
+          "certificate": {
+            "type": "string",
+            "description": "Base64-encoded certificate or reference"
+          }
+        }
+      }
+    }
+  }
+}
