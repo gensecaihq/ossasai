@@ -31,7 +31,7 @@ jobs:
 
       - name: Download OSSASAI Audit
         run: |
-          curl -sSL https://ocsas.dev/audit.sh -o ossasai-audit.sh
+          curl -sSL https://raw.githubusercontent.com/gensecaihq/ossasai/main/tools/ossasai-audit.sh -o ossasai-audit.sh
           chmod +x ossasai-audit.sh
 
       - name: Run Compliance Check
@@ -77,8 +77,8 @@ jobs:
       - name: OSSASAI Audit
         run: |
           # Download audit script with integrity verification
-          curl -sSL https://ossasai.dev/tools/ossasai-audit.sh -o ossasai-audit.sh
-          curl -sSL https://ossasai.dev/tools/ossasai-audit.sh.sha256 -o ossasai-audit.sh.sha256
+          curl -sSL https://raw.githubusercontent.com/gensecaihq/ossasai/main/tools/ossasai-audit.sh -o ossasai-audit.sh
+          curl -sSL https://raw.githubusercontent.com/gensecaihq/ossasai/main/tools/ossasai-audit.sh.sha256 -o ossasai-audit.sh.sha256
 
           # Verify integrity before execution
           sha256sum -c ossasai-audit.sh.sha256
@@ -196,7 +196,7 @@ ocsas-compliance:
   image: ubuntu:22.04
   before_script:
     - apt-get update && apt-get install -y curl jq
-    - curl -sSL https://ocsas.dev/audit.sh -o ossasai-audit.sh
+    - curl -sSL https://raw.githubusercontent.com/gensecaihq/ossasai/main/tools/ossasai-audit.sh -o ossasai-audit.sh
     - chmod +x ossasai-audit.sh
   script:
     - ./ossasai-audit.sh --level $OSSASAI_LEVEL --output-format json > report.json
@@ -261,7 +261,7 @@ pipeline {
         stage('OSSASAI Compliance') {
             steps {
                 sh '''
-                    curl -sSL https://ocsas.dev/audit.sh -o ossasai-audit.sh
+                    curl -sSL https://raw.githubusercontent.com/gensecaihq/ossasai/main/tools/ossasai-audit.sh -o ossasai-audit.sh
                     chmod +x ossasai-audit.sh
                     ./ossasai-audit.sh --level ${OSSASAI_LEVEL} --output-format json > report.json
                 '''

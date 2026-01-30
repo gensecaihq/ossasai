@@ -13,7 +13,7 @@ Before starting, ensure you have:
 
 - [ ] AI assistant installed and configured
 - [ ] Administrative access to configuration files
-- [ ] Access to audit script: `curl -sSL https://ocsas.dev/audit.sh -o ossasai-audit.sh`
+- [ ] Access to audit script: `curl -sSL https://raw.githubusercontent.com/gensecaihq/ossasai/main/tools/ossasai-audit.sh -o ossasai-audit.sh`
 - [ ] Understanding of your [target assurance level](/spec/assurance-levels)
 
 ## Quick Assessment
@@ -22,7 +22,7 @@ Run the OSSASAI audit to determine your current security posture:
 
 ```bash
 # Download audit script
-curl -sSL https://ocsas.dev/audit.sh -o ossasai-audit.sh
+curl -sSL https://raw.githubusercontent.com/gensecaihq/ossasai/main/tools/ossasai-audit.sh -o ossasai-audit.sh
 chmod +x ossasai-audit.sh
 
 # Run baseline assessment

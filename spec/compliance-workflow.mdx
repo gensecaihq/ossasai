@@ -205,7 +205,7 @@ OSSASAI employs a hybrid assessment methodology combining automated verification
 
 ```bash
 # Download OSSASAI audit toolkit
-curl -sSL https://ossasai.dev/audit.sh -o ossasai-audit.sh
+curl -sSL https://raw.githubusercontent.com/gensecaihq/ossasai/main/tools/ossasai-audit.sh -o ossasai-audit.sh
 chmod +x ossasai-audit.sh
 
 # Execute baseline assessment
@@ -227,7 +227,7 @@ chmod +x ossasai-audit.sh
 
 ```json
 {
-  "$schema": "https://ossasai.dev/schemas/assessment-v1.json",
+  "$schema": "https://github.com/gensecaihq/ossasai/tree/main/appendices/schemas/assessment-v1.json",
   "assessment": {
     "id": "OSSASAI-ASSESS-2026-001",
     "timestamp": "2026-01-20T14:30:00Z",
@@ -634,7 +634,7 @@ jobs:
 
       - name: Download OSSASAI Audit Tool
         run: |
-          curl -sSL https://ossasai.dev/audit.sh -o ossasai-audit.sh
+          curl -sSL https://raw.githubusercontent.com/gensecaihq/ossasai/main/tools/ossasai-audit.sh -o ossasai-audit.sh
           chmod +x ossasai-audit.sh
 
       - name: Run Compliance Assessment

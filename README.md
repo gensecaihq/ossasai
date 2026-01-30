@@ -63,8 +63,8 @@ Find the **implementation profile** for your platform:
 | Platform | Profile | Link |
 |----------|---------|------|
 | **OpenClaw** | OCSAS | [github.com/gensecaihq/ocsas](https://github.com/gensecaihq/ocsas) |
-| Claude Code | Coming soon | — |
-| Cursor | Coming soon | — |
+
+> **Want to contribute a profile?** See [Creating Profiles](profiles/overview.mdx) to add support for other AI agents like Claude Code, Cursor, or your own platform.
 
 The profile gives you:
 - Exact settings to configure
@@ -213,9 +213,7 @@ OSSASAI Control: "ID-01: Verify new contacts"
        ↓
 OpenClaw Profile (OCSAS): "Set dmPolicy: 'pairing'"
        ↓
-Claude Code Profile: "Enable contact approval in settings"
-       ↓
-Your Platform: [You document how to do this]
+Your Platform Profile: [Document how your platform implements this]
 ```
 
 ### Available Profiles

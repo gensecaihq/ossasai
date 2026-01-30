@@ -213,7 +213,7 @@ Exit Codes:
   1 - One or more controls failed
   2 - Error during execution
 
-Documentation: https://ossasai.dev/docs
+Documentation: https://github.com/gensecaihq/ossasai
 EOF
 }
 

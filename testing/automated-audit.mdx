@@ -11,11 +11,11 @@ The OSSASAI audit script (`ossasai-audit.sh`) provides automated verification of
 
 ```bash
 # Download audit script
-curl -sSL https://ocsas.dev/audit.sh -o ossasai-audit.sh
+curl -sSL https://raw.githubusercontent.com/gensecaihq/ossasai/main/tools/ossasai-audit.sh -o ossasai-audit.sh
 chmod +x ossasai-audit.sh
 
 # Verify signature (recommended)
-curl -sSL https://ocsas.dev/audit.sh.sig -o ossasai-audit.sh.sig
+curl -sSL https://raw.githubusercontent.com/gensecaihq/ossasai/main/tools/ossasai-audit.sh.sig -o ossasai-audit.sh.sig
 gpg --verify ossasai-audit.sh.sig ossasai-audit.sh
 ```
 
