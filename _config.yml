@@ -4,8 +4,8 @@
 title: OSSASAI
 description: Open Security Standard for Agentic Systems - A vendor-neutral security framework for AI agents
 
-# GitHub Pages with just-the-docs theme
-remote_theme: just-the-docs/just-the-docs
+# Theme
+theme: just-the-docs
 
 # URL configuration for GitHub Pages project site
 url: "https://gensecaihq.github.io"
@@ -76,9 +76,8 @@ kramdown:
     block:
       line_numbers: false
 
-# Plugins (GitHub Pages supported)
+# Plugins
 plugins:
-  - jekyll-remote-theme
   - jekyll-seo-tag
   - jekyll-sitemap
 

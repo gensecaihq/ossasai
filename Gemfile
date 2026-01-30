@@ -1,12 +1,11 @@
-# OSSASAI Documentation - GitHub Pages
+# OSSASAI Documentation - GitHub Pages with Jekyll
 
 source "https://rubygems.org"
 
-# GitHub Pages gem includes Jekyll and compatible plugins
-gem "github-pages", group: :jekyll_plugins
+gem "jekyll", "~> 4.3"
+gem "just-the-docs", "~> 0.8"
 
 group :jekyll_plugins do
-  gem "jekyll-remote-theme"
   gem "jekyll-seo-tag"
   gem "jekyll-sitemap"
 end
