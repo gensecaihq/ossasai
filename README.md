@@ -64,7 +64,7 @@ Find the **implementation profile** for your platform:
 |----------|---------|------|
 | **OpenClaw** | OCSAS | [github.com/gensecaihq/ocsas](https://github.com/gensecaihq/ocsas) |
 
-> **Want to contribute a profile?** See [Creating Profiles](profiles/overview.mdx) to add support for other AI agents like Claude Code, Cursor, or your own platform.
+> **Want to contribute a profile?** See [Creating Profiles](profiles/overview.md) to add support for other AI agents like Claude Code, Cursor, or your own platform.
 
 The profile gives you:
 - Exact settings to configure
@@ -106,7 +106,7 @@ openclaw security audit --fix
 openclaw health
 ```
 
-For other platforms, check if they have an OSSASAI profile or follow the [generic quickstart](implementation/quickstart.mdx).
+For other platforms, check if they have an OSSASAI profile or follow the [generic quickstart](implementation/quickstart.md).
 
 ---
 
@@ -224,7 +224,7 @@ Your Platform Profile: [Document how your platform implements this]
 
 ### Creating a New Profile
 
-Want to create a profile for another AI agent? See [Creating Profiles](profiles/overview.mdx).
+Want to create a profile for another AI agent? See [Creating Profiles](profiles/overview.md).
 
 ---
 
@@ -233,23 +233,23 @@ Want to create a profile for another AI agent? See [Creating Profiles](profiles/
 ```
 ossasai/
 ├── spec/                     # What OSSASAI requires
-│   ├── overview.mdx          # Framework overview
-│   ├── assurance-levels.mdx  # L1/L2/L3 definitions
-│   └── trust-boundaries.mdx  # Security boundaries
+│   ├── overview.md           # Framework overview
+│   ├── assurance-levels.md   # L1/L2/L3 definitions
+│   └── trust-boundaries.md   # Security boundaries
 ├── threat-model/             # What attacks look like
-│   ├── adversary-classes.mdx # Who might attack
-│   ├── ai-agent-threats.mdx  # AI-specific attacks
-│   └── attack-vectors.mdx    # How attacks happen
+│   ├── adversary-classes.md  # Who might attack
+│   ├── ai-agent-threats.md   # AI-specific attacks
+│   └── attack-vectors.md     # How attacks happen
 ├── controls/                 # What to check
-│   ├── general.mdx           # GEN-01 to GEN-05
-│   ├── control-plane.mdx     # CP-01 to CP-04
-│   ├── identity-session.mdx  # ID-01 to ID-03
+│   ├── general.md            # GEN-01 to GEN-05
+│   ├── control-plane.md      # CP-01 to CP-04
+│   ├── identity-session.md   # ID-01 to ID-03
 │   └── ...                   # Other domains
 ├── implementation/           # How to deploy securely
-│   ├── quickstart.mdx        # Fast setup
-│   └── l1-deployment.mdx     # Level-specific guides
+│   ├── quickstart.md         # Fast setup
+│   └── l1-deployment.md      # Level-specific guides
 ├── compliance/               # How to prove security
-│   └── evidence-collection.mdx
+│   └── evidence-collection.md
 └── tools/                    # Automation
     ├── ossasai-audit.sh      # Audit script
     └── ossasai-report.py     # Report generator
