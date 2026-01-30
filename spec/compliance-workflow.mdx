@@ -107,9 +107,9 @@ Assign assessment roles per RACI matrix:
 # Schema Version: 1.0
 
 metadata:
-  document_id: "OSSASAI-SCOPE-2025-001"
-  created: "2025-01-15"
-  last_modified: "2025-01-15"
+  document_id: "OSSASAI-SCOPE-2026-001"
+  created: "2026-01-15"
+  last_modified: "2026-01-15"
   status: "approved"  # draft, review, approved
 
 assessment:
@@ -179,11 +179,11 @@ stakeholders:
     title: "[Title]"
 
 schedule:
-  scope_approval: "2025-01-15"
-  assessment_start: "2025-01-20"
-  remediation_deadline: "2025-02-15"
-  verification_complete: "2025-02-20"
-  attestation_target: "2025-02-28"
+  scope_approval: "2026-01-15"
+  assessment_start: "2026-01-20"
+  remediation_deadline: "2026-02-15"
+  verification_complete: "2026-02-20"
+  attestation_target: "2026-02-28"
 ```
 
 ---
@@ -229,8 +229,8 @@ chmod +x ossasai-audit.sh
 {
   "$schema": "https://ossasai.dev/schemas/assessment-v1.json",
   "assessment": {
-    "id": "OSSASAI-ASSESS-2025-001",
-    "timestamp": "2025-01-20T14:30:00Z",
+    "id": "OSSASAI-ASSESS-2026-001",
+    "timestamp": "2026-01-20T14:30:00Z",
     "version": "0.1.0",
     "target_level": "L2",
     "profile": "OSSASAI-PROFILE-OPENCLAW-OCSAS-0.1"
@@ -256,7 +256,7 @@ chmod +x ossasai-audit.sh
         "artifacts": ["evidence/cp-01-bind-config.json"],
         "observations": "Gateway bound to 127.0.0.1:18789"
       },
-      "timestamp": "2025-01-20T14:30:15Z"
+      "timestamp": "2026-01-20T14:30:15Z"
     },
     {
       "id": "OSSASAI-TB-04",
@@ -273,7 +273,7 @@ chmod +x ossasai-audit.sh
         "guidance": "Configure egress.allowlist in configuration",
         "reference": "/controls/tool-blast-radius#ossasai-tb-04"
       },
-      "timestamp": "2025-01-20T14:30:22Z"
+      "timestamp": "2026-01-20T14:30:22Z"
     }
   ]
 }
@@ -334,8 +334,8 @@ OSSASAI uses a risk-based prioritization framework aligned with NIST SP 800-30 (
 ```yaml
 # OSSASAI Gap Analysis Record
 gap:
-  id: "GAP-2025-001"
-  created: "2025-01-20"
+  id: "GAP-2026-001"
+  created: "2026-01-20"
   status: "open"  # open, in_progress, resolved, accepted_risk
 
 control:
@@ -423,13 +423,13 @@ compensating_control:
   residual_risk: "low"
 
   review:
-    next_review: "2025-Q3"
-    full_implementation_target: "2025-Q4"
+    next_review: "2026-Q3"
+    full_implementation_target: "2026-Q4"
     responsible_party: "security-team@example.com"
 
   approval:
     approver: "CISO"
-    date: "2025-01-25"
+    date: "2026-01-25"
     conditions:
       - "Maintain manual verification until automated signing available"
       - "Report any verification failures immediately"
@@ -477,8 +477,8 @@ Verify that remediation did not introduce regressions:
   <Step title="Document Verification Results">
 ```yaml
 verification:
-  gap_id: "GAP-2025-001"
-  verification_date: "2025-02-18"
+  gap_id: "GAP-2026-001"
+  verification_date: "2026-02-18"
 
   tests:
     - test: "Automated audit OSSASAI-TB-04"
@@ -509,8 +509,8 @@ Organizations claiming OSSASAI conformance MUST publish a formal attestation:
 # Schema Version: 1.0
 
 statement:
-  id: "OSSASAI-ATTEST-2025-001"
-  issued: "2025-02-28"
+  id: "OSSASAI-ATTEST-2026-001"
+  issued: "2026-02-28"
 
 organization:
   name: "[Organization Name]"
@@ -533,7 +533,7 @@ assessment:
   type: "self"  # self, third-party
   assessor: "[Assessor Name/Organization]"
   methodology: "OSSASAI Conformance Assessment Methodology v1.0"
-  date: "2025-02-20"
+  date: "2026-02-20"
 
 controls:
   summary:
@@ -546,14 +546,14 @@ controls:
     - control_id: "OSSASAI-SC-02"
       status: "compensating_control"
       description: "Manual hash verification in lieu of automated pinning"
-      remediation_target: "2025-Q4"
+      remediation_target: "2026-Q4"
 
 evidence:
   package_location: "[URL or reference]"
   package_hash: "sha256:[hash]"
 
 validity:
-  effective: "2025-02-28"
+  effective: "2026-02-28"
   expiration: "2026-02-28"
   review_frequency: "quarterly"
 
@@ -562,7 +562,7 @@ attestation:
     name: "[Name]"
     title: "[Title]"
     organization: "[Organization]"
-  date: "2025-02-28"
+  date: "2026-02-28"
   statement: |
     I attest that the above-named product has been assessed against
     OSSASAI version 0.1.0 at Assurance Level 2 and meets all applicable
