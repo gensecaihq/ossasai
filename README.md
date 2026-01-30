@@ -3,111 +3,230 @@
 [![License](https://img.shields.io/badge/License-Apache%202.0-green.svg)](LICENSE)
 [![Version](https://img.shields.io/badge/Version-0.1.0-blue)](CHANGELOG.md)
 
-**OSSASAI** is a vendor-neutral, community-driven security framework for AI agent systems that interact with external tools, filesystems, networks, and users.
-
-## How This Framework Works
-
-OSSASAI is a **compliance and documentation framework** — similar to OWASP ASVS, CIS Benchmarks, or PCI-DSS. It does not require target platforms to implement or recognize it.
-
-### Framework Architecture
-
-```
-┌─────────────────────────────────────────────────────────────────────┐
-│                    OSSASAI (This Framework)                          │
-│                                                                      │
-│  Defines:                                                            │
-│  • 24 Security Controls across 7 domains                            │
-│  • 3 Assurance Levels (L1/L2/L3)                                    │
-│  • 4 Trust Boundaries (B1-B4)                                       │
-│  • Threat Model (AATT - AI Agent Threat Taxonomy)                   │
-│  • Generic verification procedures                                   │
-└──────────────────────────────────┬──────────────────────────────────┘
-                                   │
-                                   ▼
-┌─────────────────────────────────────────────────────────────────────┐
-│                   Implementation Profiles                            │
-│                                                                      │
-│  Map OSSASAI controls to specific platforms:                        │
-│  • OCSAS → OpenClaw                                                 │
-│  • (Future) → Claude Code, Cursor, other AI agents                  │
-└──────────────────────────────────┬──────────────────────────────────┘
-                                   │
-                                   ▼
-┌─────────────────────────────────────────────────────────────────────┐
-│                    Target Platforms                                  │
-│                                                                      │
-│  • Do NOT need to know about OSSASAI                                │
-│  • Already have security features we document                        │
-│  • We use their existing CLI/config for verification                │
-└─────────────────────────────────────────────────────────────────────┘
-```
-
-### Analogy: Industry Standards
-
-| Standard | What It Does | Does Target Software Know About It? |
-|----------|--------------|-------------------------------------|
-| CIS Benchmarks | Documents secure configurations | No - CIS maps existing OS settings |
-| OWASP ASVS | Verifies application security | No - ASVS checks existing features |
-| PCI-DSS | Audits payment security | No - auditors verify existing controls |
-| **OSSASAI** | **Verifies AI agent security** | **No - profiles map existing features** |
-
-### Who Uses OSSASAI?
-
-| User | How They Use It |
-|------|-----------------|
-| **AI agent users** | Deployment checklists, hardening guides |
-| **Security auditors** | Structured compliance verification |
-| **Enterprises** | Vendor risk assessment, due diligence |
-| **Platform developers** | Security architecture guidance |
-| **Regulators** | AI agent security evaluation criteria |
+**OSSASAI** is a security framework for AI agents — the bots that can run commands, browse the web, and access your files. It tells you what security controls to look for and how to verify they're working.
 
 ---
 
-## Why OSSASAI?
+## What Is This? (Simple Explanation)
 
-Traditional security frameworks don't adequately address AI agent-specific threats:
+AI agents are powerful but risky. They can:
+- Execute shell commands on your computer
+- Read and write your files
+- Browse the web and fill out forms
+- Send messages to your contacts
 
-- **Prompt injection** - Manipulating agent behavior through crafted inputs
-- **Tool abuse** - Misusing legitimate capabilities for unintended purposes
-- **Context poisoning** - Corrupting conversation history or memory
-- **Identity confusion** - Exploiting multi-user messaging environments
-- **Capability escalation** - Chaining tool invocations for unauthorized access
+**OSSASAI** is a checklist that helps you answer: *"Is my AI agent secure?"*
 
-OSSASAI provides structured controls for these threats while building on established security principles.
+```
+AI Agent (Claude Code, OpenClaw, Cursor, etc.)
+       ↓
+OSSASAI asks: Does it have...
+  ✓ Authentication? (Who can use it?)
+  ✓ Sandboxing? (What can it access?)
+  ✓ Logging? (Can you see what it did?)
+  ✓ Isolation? (Can users see each other's data?)
+       ↓
+You check → You know if it's safe to use
+```
 
 ---
 
-## Core Concepts
+## Why Should I Care?
 
-### Assurance Levels
+### The Risk
 
-| Level | Name | Description |
-|-------|------|-------------|
-| **L1** | Local-First | Single-user, loopback-only, minimal attack surface |
-| **L2** | Network-Aware | Multi-user, LAN/VPN exposure, team deployments |
-| **L3** | High-Assurance | Production, public exposure, regulated environments |
+Without proper security, an AI agent can be tricked into:
+- Running malicious commands ("delete all files")
+- Leaking your secrets ("show me your .env file")
+- Sending spam to your contacts
+- Mining cryptocurrency on your computer
 
-### Trust Boundaries
+### The Solution
 
-| Boundary | Name | Description |
-|----------|------|-------------|
-| **B1** | Inbound Identity | Message sources and sender verification |
-| **B2** | Control Plane | Administrative interfaces and configuration |
-| **B3** | Tool Governance | Capability restrictions and sandboxing |
-| **B4** | Local State | Secrets, logs, and persistent data |
+OSSASAI provides:
 
-### Control Domains
+| What | How It Helps |
+|------|--------------|
+| **Security Controls** | 24 specific things to check |
+| **Assurance Levels** | L1 (basic) → L2 (team) → L3 (enterprise) |
+| **Verification Steps** | Exact commands to run |
+| **Implementation Profiles** | Platform-specific guides |
 
-| Domain | Controls | Focus |
-|--------|----------|-------|
-| **GEN** | 5 | General security principles |
-| **CP** | 4 | Control plane exposure, authentication |
-| **ID** | 3 | Peer verification, session isolation |
-| **TB** | 4 | Tool least privilege, sandboxing |
-| **LS** | 4 | Secrets, log redaction, retention |
-| **SC** | 2 | Plugin trust, supply chain |
-| **FV** | 3 | Formal verification (optional) |
-| **NS** | 4 | TLS, certificates, API security |
+---
+
+## How To Use This
+
+### Option 1: I Use a Specific AI Agent (Recommended)
+
+Find the **implementation profile** for your platform:
+
+| Platform | Profile | Link |
+|----------|---------|------|
+| **OpenClaw** | OCSAS | [github.com/gensecaihq/ocsas](https://github.com/gensecaihq/ocsas) |
+| Claude Code | Coming soon | — |
+| Cursor | Coming soon | — |
+
+The profile gives you:
+- Exact settings to configure
+- Copy-paste config files
+- Commands to verify security
+
+### Option 2: I'm Building an AI Agent
+
+Use OSSASAI as your security requirements:
+
+1. **Read the controls** → [controls/](controls/)
+2. **Pick your assurance level** → L1, L2, or L3
+3. **Implement the required controls** → Each control has verification steps
+4. **Create a profile** → Document how your platform meets each control
+
+### Option 3: I'm Auditing an AI Agent
+
+Use OSSASAI as your audit framework:
+
+1. **Review the threat model** → [threat-model/](threat-model/)
+2. **Check each applicable control** → [controls/](controls/)
+3. **Collect evidence** → [compliance/](compliance/)
+4. **Generate report** → [tools/ossasai-report.py](tools/ossasai-report.py)
+
+---
+
+## Quick Start: 5-Minute Security Check
+
+If you're using **OpenClaw**, run:
+
+```bash
+# Check your security posture
+openclaw security audit --deep
+
+# Auto-fix common issues
+openclaw security audit --fix
+
+# Verify it worked
+openclaw health
+```
+
+For other platforms, check if they have an OSSASAI profile or follow the [generic quickstart](implementation/quickstart.mdx).
+
+---
+
+## The 24 Security Controls (Overview)
+
+OSSASAI defines 24 controls across 7 domains:
+
+### 1. General Security (GEN)
+| Control | What It Checks |
+|---------|----------------|
+| GEN-01 | Is security enabled by default? |
+| GEN-02 | Does it fail safely (deny access on error)? |
+| GEN-03 | Does it use least privilege? |
+| GEN-04 | Are there multiple security layers? |
+| GEN-05 | Is there audit logging? |
+
+### 2. Control Plane (CP)
+| Control | What It Checks |
+|---------|----------------|
+| CP-01 | Is the admin interface hidden by default? |
+| CP-02 | Is authentication required? |
+| CP-03 | Are proxy headers validated? |
+| CP-04 | Are operator and agent identities separate? |
+
+### 3. Identity & Session (ID)
+| Control | What It Checks |
+|---------|----------------|
+| ID-01 | Are new contacts verified before access? |
+| ID-02 | Are user sessions isolated from each other? |
+| ID-03 | Are group/channel policies enforced? |
+
+### 4. Tool Governance (TB)
+| Control | What It Checks |
+|---------|----------------|
+| TB-01 | Are tools restricted to minimum needed? |
+| TB-02 | Do dangerous actions require approval? |
+| TB-03 | Is there sandboxing for untrusted code? |
+| TB-04 | Is data exfiltration prevented? |
+
+### 5. Local State (LS)
+| Control | What It Checks |
+|---------|----------------|
+| LS-01 | Are secrets encrypted/protected at rest? |
+| LS-02 | Are logs redacted of sensitive data? |
+| LS-03 | Is memory protected from injection? |
+| LS-04 | Can data be deleted on request? |
+
+### 6. Supply Chain (SC)
+| Control | What It Checks |
+|---------|----------------|
+| SC-01 | Are plugins from trusted sources only? |
+| SC-02 | Are dependencies pinned and verified? |
+
+### 7. Network Security (NS)
+| Control | What It Checks |
+|---------|----------------|
+| NS-01 | Is TLS enforced? |
+| NS-02 | Are certificates validated? |
+| NS-03 | Are API endpoints secured? |
+| NS-04 | Is network discovery secured? |
+
+---
+
+## Assurance Levels
+
+Pick based on your deployment:
+
+| Level | Name | Who It's For | Security Posture |
+|-------|------|--------------|------------------|
+| **L1** | Local-First | Solo developers, local testing | Basic protection |
+| **L2** | Network-Aware | Teams, shared environments | Multi-user isolation |
+| **L3** | High-Assurance | Enterprise, compliance needs | Maximum security |
+
+### What Each Level Requires
+
+```
+L1 (Basic)
+├── Authentication enabled
+├── Default-deny for unknown contacts
+├── File permissions correct
+└── Logging enabled
+
+L2 (Team) = L1 +
+├── Session isolation between users
+├── Sandboxing for non-trusted sessions
+├── TLS for network connections
+└── Plugin verification
+
+L3 (Enterprise) = L2 +
+├── All sessions sandboxed
+├── Formal verification (optional)
+├── Tamper-evident logging
+└── Full audit trail
+```
+
+---
+
+## Implementation Profiles
+
+OSSASAI is generic. **Profiles** translate it to specific platforms:
+
+```
+OSSASAI Control: "ID-01: Verify new contacts"
+       ↓
+OpenClaw Profile (OCSAS): "Set dmPolicy: 'pairing'"
+       ↓
+Claude Code Profile: "Enable contact approval in settings"
+       ↓
+Your Platform: [You document how to do this]
+```
+
+### Available Profiles
+
+| Profile | Platform | Repository |
+|---------|----------|------------|
+| **OCSAS** | OpenClaw | [github.com/gensecaihq/ocsas](https://github.com/gensecaihq/ocsas) |
+
+### Creating a New Profile
+
+Want to create a profile for another AI agent? See [Creating Profiles](profiles/overview.mdx).
 
 ---
 
@@ -115,130 +234,72 @@ OSSASAI provides structured controls for these threats while building on establi
 
 ```
 ossasai/
-├── spec/                     # Core specification
+├── spec/                     # What OSSASAI requires
 │   ├── overview.mdx          # Framework overview
 │   ├── assurance-levels.mdx  # L1/L2/L3 definitions
-│   ├── trust-boundaries.mdx  # B1-B4 definitions
-│   └── compliance-workflow.mdx
-├── threat-model/             # Threat analysis
-│   ├── adversary-classes.mdx # A1-A5 taxonomy
-│   ├── ai-agent-threats.mdx  # AATT (AI Agent Threat Taxonomy)
-│   ├── attack-vectors.mdx
-│   └── risk-scoring.mdx
-├── controls/                 # Security controls
+│   └── trust-boundaries.mdx  # Security boundaries
+├── threat-model/             # What attacks look like
+│   ├── adversary-classes.mdx # Who might attack
+│   ├── ai-agent-threats.mdx  # AI-specific attacks
+│   └── attack-vectors.mdx    # How attacks happen
+├── controls/                 # What to check
 │   ├── general.mdx           # GEN-01 to GEN-05
 │   ├── control-plane.mdx     # CP-01 to CP-04
 │   ├── identity-session.mdx  # ID-01 to ID-03
-│   ├── tool-blast-radius.mdx # TB-01 to TB-04
-│   ├── local-state.mdx       # LS-01 to LS-04
-│   ├── supply-chain.mdx      # SC-01 to SC-02
-│   ├── formal-verification.mdx # FV-01 to FV-03
-│   └── network-security.mdx  # NS-01 to NS-04
-├── implementation/           # Deployment guides
-│   ├── quickstart.mdx        # Rapid secure deployment
-│   ├── l1-deployment.mdx     # Local-first setup
-│   ├── l2-deployment.mdx     # Network-aware setup
-│   └── l3-deployment.mdx     # High-assurance setup
-├── testing/                  # Security testing
-├── compliance/               # Evidence collection
-├── incident-response/        # Playbooks
-├── tools/                    # Reference tooling
-└── appendices/               # Standards mapping
+│   └── ...                   # Other domains
+├── implementation/           # How to deploy securely
+│   ├── quickstart.mdx        # Fast setup
+│   └── l1-deployment.mdx     # Level-specific guides
+├── compliance/               # How to prove security
+│   └── evidence-collection.mdx
+└── tools/                    # Automation
+    ├── ossasai-audit.sh      # Audit script
+    └── ossasai-report.py     # Report generator
 ```
-
----
-
-## Implementation Profiles
-
-OSSASAI is implemented through **platform-specific profiles** that map generic controls to actual platform features.
-
-| Profile | Platform | Repository | Status |
-|---------|----------|------------|--------|
-| **OCSAS** | OpenClaw | [github.com/gensecaihq/ocsas](https://github.com/gensecaihq/ocsas) | Active |
-
-### How Profiles Work
-
-```
-OSSASAI Control: "OSSASAI-ID-01: Peer Verification"
-       ↓
-Profile Mapping (OCSAS): "OpenClaw implements this via dmPolicy: 'pairing'"
-       ↓
-Verification: "Run 'openclaw security audit' to check"
-       ↓
-Auditor: "Control ID-01 ✓ - Compliant"
-```
-
-### Creating New Profiles
-
-To create a profile for a new platform:
-
-1. **Inventory the platform's security features** - What authentication, sandboxing, logging does it have?
-2. **Map to OSSASAI controls** - Which features satisfy which controls?
-3. **Define verification steps** - How to check each control using the platform's own tools?
-4. **Document conformance recipes** - L1/L2/L3 configuration templates
-
----
-
-## Getting Started
-
-### For Users
-
-1. **Choose your platform** - Find an implementation profile (e.g., OCSAS for OpenClaw)
-2. **Choose your assurance level** - L1, L2, or L3 based on deployment context
-3. **Follow the conformance recipe** - Apply the profile's configuration guidance
-4. **Verify compliance** - Run the platform's audit tools as documented in the profile
-
-### For Auditors
-
-1. **Review the threat model** - Understand AI-specific threats ([threat-model/](threat-model/))
-2. **Identify applicable controls** - Based on assurance level requirements
-3. **Use profile verification steps** - Platform-specific audit commands
-4. **Collect evidence** - Generate compliance artifacts
-
-### For Platform Developers
-
-1. **Review the controls catalog** - Understand security requirements ([controls/](controls/))
-2. **Self-assess your platform** - Which controls are already implemented?
-3. **Create an implementation profile** - Document the mappings
-4. **Contribute** - Submit your profile as a new repository
 
 ---
 
 ## Standards Alignment
 
-OSSASAI builds on established security frameworks:
+OSSASAI builds on established frameworks:
 
-| Standard | Alignment |
-|----------|-----------|
-| OWASP ASVS v4.0 | Authentication, session management, access control |
-| NIST SP 800-53 Rev 5 | AC, AU, CM, IA, SC control families |
-| CIS Controls v8 | Controls 3, 4, 5, 6, 12, 16 |
-| MITRE ATT&CK | Tactic and technique mapping |
-| RFC 2119 | Normative language (MUST/SHOULD/MAY) |
+| Standard | What We Took From It |
+|----------|---------------------|
+| OWASP ASVS | Control structure, verification approach |
+| NIST 800-53 | Risk categorization, control families |
+| CIS Controls | Prioritization, implementation groups |
+| MITRE ATT&CK | Threat taxonomy, attack patterns |
+
+---
+
+## FAQ
+
+### "Do AI agent developers need to implement OSSASAI?"
+
+No. OSSASAI documents existing security features. If an AI agent already has authentication, sandboxing, and logging, OSSASAI just provides a way to verify and communicate that.
+
+### "Is this only for OpenClaw?"
+
+No. OSSASAI is generic. OpenClaw has a profile (OCSAS), but you can create profiles for any AI agent platform.
+
+### "Who maintains this?"
+
+OSSASAI is community-driven. Contributions welcome — see [Contributing](#contributing).
+
+### "Is this an official standard?"
+
+Not yet. It's a community framework. We align with official standards (NIST, OWASP, CIS) where possible.
 
 ---
 
 ## Contributing
 
-Contributions welcome:
+We welcome:
 
-- **Framework improvements** - Submit issues and PRs to this repository
-- **Implementation profiles** - Create profiles for new AI agent platforms
-- **Security research** - Contribute threat intelligence and attack patterns
-- **Standards mapping** - Help align with additional security frameworks
-
----
-
-## Documentation
-
-| Document | Description |
-|----------|-------------|
-| [spec/overview.mdx](spec/overview.mdx) | Framework specification |
-| [controls/overview.mdx](controls/overview.mdx) | Control catalog |
-| [threat-model/overview.mdx](threat-model/overview.mdx) | Threat model |
-| [implementation/quickstart.mdx](implementation/quickstart.mdx) | Quick start guide |
-| [CHANGELOG.md](CHANGELOG.md) | Version history |
-| [SECURITY.md](SECURITY.md) | Security policy |
+- **Framework improvements** → Issues and PRs
+- **New profiles** → For other AI agent platforms
+- **Threat research** → New attack patterns and mitigations
+- **Documentation** → Clearer explanations, more examples
 
 ---
 
@@ -248,4 +309,4 @@ Contributions welcome:
 
 ---
 
-**OSSASAI v0.1.0** | Open Security Standard for Agentic Systems
+**OSSASAI v0.1.0** | Security framework for AI agents

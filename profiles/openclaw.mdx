@@ -536,8 +536,59 @@ OCSAS includes the following OpenClaw-specific extensions beyond OSSASAI core co
 | OCSAS-EXT-02 | Hook Security | Security validation for pre/post execution hooks |
 | OCSAS-EXT-03 | Memory Provider Security | Controls for RAG and memory provider integrations |
 
+## Registry Configuration
+
+OCSAS is registered with the OSSASAI Profile Registry and automatically receives notifications about framework changes.
+
+### Profile Registration
+
+```yaml
+# OCSAS Registry Entry
+profile:
+  id: "OSSASAI-PROFILE-OPENCLAW-OCSAS-1.0.0"
+  name: "OCSAS - OpenClaw Security Assurance Standard"
+  platform: "openclaw"
+  version: "1.0.0"
+  ossasai_version: "0.2.0"
+  ossasai_compatibility: ["0.1.0", "0.2.0"]
+  status: "official"
+  repository: "https://github.com/gensecaihq/ossasai"
+  documentation: "https://ossasai.dev/profiles/openclaw"
+
+maintainers:
+  - name: "OSSASAI Project"
+    email: "profiles@ossasai.dev"
+    role: "lead"
+
+webhooks:
+  url: "https://ossasai.dev/internal/webhooks/ocsas"
+  events: ["all"]
+```
+
+### Compatibility Status
+
+| OSSASAI Version | OCSAS Version | Status |
+|-----------------|---------------|--------|
+| 0.2.0 | 1.0.0 | Fully Compatible |
+| 0.1.0 | 1.0.0 | Compatible (GEN controls added) |
+
+### Staying Updated
+
+OCSAS maintainers receive automatic notifications for:
+- New controls added to the framework
+- Changes to existing control definitions
+- Requirement level changes (SHOULD→MUST)
+- Breaking changes requiring migration
+
+To check OCSAS compatibility with the current framework:
+
+```bash
+curl https://ossasai.dev/api/v1/profiles/OSSASAI-PROFILE-OPENCLAW-OCSAS/compatibility
+```
+
 ## References
 
+- [Profile Registry](/profiles/registry)
 - [OpenClaw Documentation](https://docs.openclaw.ai)
 - [OSSASAI Specification](/spec/overview)
 - [OSSASAI Control Catalog](/controls/overview)

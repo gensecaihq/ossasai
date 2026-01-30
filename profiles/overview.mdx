@@ -70,6 +70,21 @@ OSSASAI-PROFILE-[PLATFORM]-[NAME]-[VERSION]
 Example: OSSASAI-PROFILE-OPENCLAW-OCSAS-1.0.0
 ```
 
+## Profile Registry
+
+The OSSASAI Profile Registry provides a central endpoint for profile management, version tracking, and change notifications. Profiles registered with the registry receive automatic notifications when framework changes may affect their implementations.
+
+<Card title="Profile Registry" icon="database" href="/profiles/registry">
+  Central registry of all OSSASAI profiles with compatibility tracking, webhook notifications, and API access.
+</Card>
+
+### Registry Benefits
+
+- **Change Notifications**: Webhooks notify maintainers of framework changes
+- **Compatibility Tracking**: Automatic compatibility checks against OSSASAI versions
+- **Version Management**: Track profile versions and migration requirements
+- **Discovery**: Make your profile discoverable to the community
+
 ## Available Profiles
 
 <CardGroup cols={2}>
@@ -82,13 +97,14 @@ Example: OSSASAI-PROFILE-OPENCLAW-OCSAS-1.0.0
 
     **Version:** 1.0.0
     **Assurance Levels:** L1, L2, L3
+    **Status:** Official
   </Card>
   <Card
     title="Community Profiles"
     icon="users"
-    href="https://github.com/gensecaihq/ossasai/tree/main/profiles"
+    href="/profiles/registry"
   >
-    Community-contributed profiles for other platforms. Submit your profile via pull request.
+    Community-contributed profiles for other platforms. Register your profile to receive change notifications.
 
     **Platforms:** Various
     **Status:** Community-maintained
@@ -223,12 +239,79 @@ Profiles follow semantic versioning:
 
 | OSSASAI Version | Compatible Profile Versions |
 |-----------------|----------------------------|
-| 1.0.x | Profiles 1.0.x |
-| 1.1.x | Profiles 1.0.x, 1.1.x |
-| 2.0.x | Profiles 2.0.x (breaking) |
+| 0.2.x (current) | Profiles 1.0.x |
+| 1.0.x (future) | Profiles 2.0.x (new schema) |
+
+## Staying Updated with Framework Changes
+
+### Webhook Notifications
+
+Register webhooks to receive automatic notifications when OSSASAI framework changes may affect your profile:
+
+```yaml
+# Profile webhook configuration
+webhooks:
+  url: "https://your-domain.com/webhooks/ossasai"
+  events:
+    - control_added        # New control added to catalog
+    - control_changed      # Existing control modified
+    - requirement_elevated # SHOULD→MUST change
+    - breaking_change      # Major version change
+    - version_released     # New OSSASAI version
+  secret: "${WEBHOOK_SECRET}"  # For signature verification
+```
+
+### Change Notification Events
+
+| Event | When Triggered | Action Required |
+|-------|----------------|-----------------|
+| `control_added` | New control in catalog | Map new control to platform |
+| `control_changed` | Control definition updated | Review and update mapping |
+| `requirement_elevated` | SHOULD→MUST | Ensure control is implemented |
+| `breaking_change` | Major version release | Follow migration guide |
+| `version_released` | Any new version | Review changelog |
+
+### Checking Compatibility
+
+```bash
+# Check your profile against the current framework
+curl https://ossasai.dev/api/v1/profiles/YOUR-PROFILE-ID/compatibility
+
+# Or use the CLI
+ossasai-audit.sh --check-profile-compatibility ./your-profile.yaml
+```
+
+### Framework Change Feed
+
+Subscribe to framework changes via RSS/Atom or poll the API:
+
+```bash
+# Get changes since a specific version
+curl https://ossasai.dev/api/v1/framework/changes?since=0.1.0
+
+# Get current control catalog
+curl https://ossasai.dev/api/v1/framework/controls
+```
+
+## Profile Schema
+
+Profiles must conform to the OSSASAI Profile Schema for validation and registry compatibility:
+
+```bash
+# Validate your profile
+ossasai-audit.sh --validate-profile your-profile.yaml
+
+# Or validate against the JSON schema directly
+jsonschema -i your-profile.json \
+  https://ossasai.dev/schemas/profile.schema.json
+```
+
+Schema documentation: [Profile Schema](/appendices/schemas/profile.schema.json)
 
 ## References
 
+- [Profile Registry](/profiles/registry)
+- [Profile Schema](/appendices/schemas/profile.schema.json)
 - [OSSASAI Specification](/spec/overview)
 - [Control Catalog](/controls/overview)
 - [Implementation Guides](/implementation/quickstart)

@@ -1,0 +1,371 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://ossasai.dev/schemas/profile.schema.json",
+  "title": "OSSASAI Profile Schema",
+  "description": "Schema for OSSASAI implementation profile definitions",
+  "type": "object",
+  "required": ["profile", "mappings"],
+  "properties": {
+    "profile": {
+      "type": "object",
+      "description": "Profile metadata",
+      "required": ["id", "name", "platform", "version", "ossasai_version"],
+      "properties": {
+        "id": {
+          "type": "string",
+          "pattern": "^OSSASAI-PROFILE-[A-Z]+-[A-Z]+-\\d+\\.\\d+\\.\\d+$",
+          "description": "Unique profile identifier following naming convention"
+        },
+        "name": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 100,
+          "description": "Human-readable profile name"
+        },
+        "platform": {
+          "type": "string",
+          "minLength": 1,
+          "description": "Target platform identifier (lowercase)"
+        },
+        "version": {
+          "type": "string",
+          "pattern": "^\\d+\\.\\d+\\.\\d+$",
+          "description": "Profile version (semver)"
+        },
+        "ossasai_version": {
+          "type": "string",
+          "pattern": "^\\d+\\.\\d+\\.\\d+$",
+          "description": "Target OSSASAI framework version"
+        },
+        "ossasai_compatibility": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "pattern": "^\\d+\\.\\d+\\.\\d+$"
+          },
+          "description": "List of compatible OSSASAI versions"
+        },
+        "status": {
+          "type": "string",
+          "enum": ["official", "verified", "community", "deprecated", "archived"],
+          "default": "community",
+          "description": "Profile status"
+        },
+        "description": {
+          "type": "string",
+          "description": "Brief description of the profile"
+        },
+        "repository": {
+          "type": "string",
+          "format": "uri",
+          "description": "Source repository URL"
+        },
+        "documentation": {
+          "type": "string",
+          "format": "uri",
+          "description": "Documentation URL"
+        },
+        "license": {
+          "type": "string",
+          "description": "License identifier (e.g., Apache-2.0)"
+        }
+      }
+    },
+    "maintainers": {
+      "type": "array",
+      "description": "Profile maintainers",
+      "items": {
+        "type": "object",
+        "required": ["name", "email"],
+        "properties": {
+          "name": {
+            "type": "string"
+          },
+          "email": {
+            "type": "string",
+            "format": "email"
+          },
+          "organization": {
+            "type": "string"
+          },
+          "role": {
+            "type": "string",
+            "enum": ["lead", "maintainer", "contributor"]
+          }
+        }
+      }
+    },
+    "mappings": {
+      "type": "object",
+      "description": "Control-to-platform mappings",
+      "patternProperties": {
+        "^OSSASAI-[A-Z]{2,3}-\\d{2}$": {
+          "$ref": "#/$defs/controlMapping"
+        }
+      },
+      "additionalProperties": false
+    },
+    "evidence": {
+      "type": "object",
+      "description": "Evidence collection procedures",
+      "patternProperties": {
+        "^OSSASAI-[A-Z]{2,3}-\\d{2}$": {
+          "$ref": "#/$defs/evidenceProcedure"
+        }
+      }
+    },
+    "verification": {
+      "type": "object",
+      "description": "Verification tooling configuration",
+      "properties": {
+        "audit_command": {
+          "type": "string",
+          "description": "Command to run full audit"
+        },
+        "report_command": {
+          "type": "string",
+          "description": "Command to generate reports"
+        },
+        "supported_formats": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "enum": ["json", "yaml", "junit", "text", "pdf"]
+          }
+        },
+        "custom_checks": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "properties": {
+              "id": {
+                "type": "string"
+              },
+              "command": {
+                "type": "string"
+              },
+              "description": {
+                "type": "string"
+              }
+            }
+          }
+        }
+      }
+    },
+    "recipes": {
+      "type": "object",
+      "description": "Conformance recipes for each assurance level",
+      "properties": {
+        "L1": {
+          "$ref": "#/$defs/conformanceRecipe"
+        },
+        "L2": {
+          "$ref": "#/$defs/conformanceRecipe"
+        },
+        "L3": {
+          "$ref": "#/$defs/conformanceRecipe"
+        }
+      }
+    },
+    "extensions": {
+      "type": "array",
+      "description": "Platform-specific control extensions",
+      "items": {
+        "$ref": "#/$defs/profileExtension"
+      }
+    },
+    "webhooks": {
+      "type": "object",
+      "description": "Webhook configuration for change notifications",
+      "properties": {
+        "url": {
+          "type": "string",
+          "format": "uri"
+        },
+        "events": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "enum": [
+              "all",
+              "control_added",
+              "control_changed",
+              "control_deprecated",
+              "requirement_elevated",
+              "schema_changed",
+              "breaking_change",
+              "version_released"
+            ]
+          }
+        },
+        "secret": {
+          "type": "string",
+          "description": "Webhook signing secret (reference, not actual secret)"
+        }
+      }
+    }
+  },
+  "$defs": {
+    "controlMapping": {
+      "type": "object",
+      "required": ["platform_config"],
+      "properties": {
+        "platform_config": {
+          "type": "string",
+          "description": "Platform configuration path or setting"
+        },
+        "default_value": {
+          "description": "Default value for the configuration"
+        },
+        "verification_command": {
+          "type": "string",
+          "description": "Command to verify this control"
+        },
+        "documentation": {
+          "type": "string",
+          "format": "uri",
+          "description": "Link to platform-specific documentation"
+        },
+        "notes": {
+          "type": "string",
+          "description": "Additional implementation notes"
+        },
+        "supported_levels": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "enum": ["L1", "L2", "L3"]
+          },
+          "description": "Assurance levels this mapping supports"
+        },
+        "platform_version": {
+          "type": "string",
+          "description": "Minimum platform version required"
+        },
+        "alternatives": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "properties": {
+              "condition": {
+                "type": "string"
+              },
+              "platform_config": {
+                "type": "string"
+              }
+            }
+          },
+          "description": "Alternative configurations for different scenarios"
+        }
+      }
+    },
+    "evidenceProcedure": {
+      "type": "object",
+      "properties": {
+        "artifacts": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "properties": {
+              "type": {
+                "type": "string",
+                "enum": [
+                  "config_snapshot",
+                  "log_sample",
+                  "test_result",
+                  "screenshot",
+                  "audit_report",
+                  "certificate",
+                  "policy_document",
+                  "network_scan",
+                  "sbom",
+                  "signature"
+                ]
+              },
+              "path": {
+                "type": "string"
+              },
+              "description": {
+                "type": "string"
+              },
+              "command": {
+                "type": "string",
+                "description": "Command to collect this artifact"
+              }
+            }
+          }
+        },
+        "procedure": {
+          "type": "string",
+          "description": "Step-by-step evidence collection procedure"
+        },
+        "validation": {
+          "type": "string",
+          "description": "How to validate collected evidence"
+        }
+      }
+    },
+    "conformanceRecipe": {
+      "type": "object",
+      "properties": {
+        "description": {
+          "type": "string"
+        },
+        "prerequisites": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "steps": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "verification": {
+          "type": "string",
+          "description": "Command to verify conformance"
+        },
+        "estimated_effort": {
+          "type": "string",
+          "description": "Estimated implementation effort"
+        }
+      }
+    },
+    "profileExtension": {
+      "type": "object",
+      "required": ["id", "title", "description"],
+      "properties": {
+        "id": {
+          "type": "string",
+          "pattern": "^[A-Z]+-EXT-\\d{2}$",
+          "description": "Extension identifier (e.g., OCSAS-EXT-01)"
+        },
+        "title": {
+          "type": "string"
+        },
+        "description": {
+          "type": "string"
+        },
+        "requirement_level": {
+          "type": "string",
+          "enum": ["MUST", "SHOULD", "MAY"]
+        },
+        "assurance_levels": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "enum": ["L1", "L2", "L3"]
+          }
+        },
+        "platform_config": {
+          "type": "string"
+        },
+        "verification_command": {
+          "type": "string"
+        }
+      }
+    }
+  }
+}

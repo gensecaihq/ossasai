@@ -33,7 +33,7 @@ OSSASAI provides a structured approach to these AI-specific threats while buildi
     Adversary taxonomy, attack vectors, and AI-specific threats
   </Card>
   <Card title="Controls" icon="shield-halved" href="/controls/overview">
-    24 security controls across 7 domains
+    30 security controls across 8 domains
   </Card>
   <Card title="Implementation" icon="hammer" href="/implementation/quickstart">
     Deployment guides for each assurance level
@@ -65,11 +65,12 @@ The framework defines four trust boundaries that must be secured:
 
 | Domain | ID | Controls | Description |
 |--------|-------|----------|-------------|
+| General | GEN | 5 | Security by default, fail secure, least privilege, defense in depth, audit logging |
 | Control Plane | CP | 4 | Gateway exposure, authentication, proxy trust |
 | Identity & Session | ID | 3 | Peer verification, session isolation, group policies |
 | Tool Blast Radius | TB | 4 | Least privilege, approval gates, sandboxing |
 | Local State | LS | 4 | Secrets protection, log redaction, retention |
-| Supply Chain | SC | 2 | Plugin trust, reproducible builds |
+| Supply Chain | SC | 3 | Plugin trust, reproducible builds, artifact signing |
 | Formal Verification | FV | 3 | Security invariants, testing, CI integration |
 | Network Security | NS | 4 | TLS, certificates, API security |
 
@@ -77,11 +78,24 @@ The framework defines four trust boundaries that must be secured:
 
 OSSASAI is designed to be implemented by specific AI agent platforms through **implementation profiles**. Each profile maps OSSASAI controls to platform-specific features, configurations, and tooling.
 
+### Profile Registry
+
+The [Profile Registry](/profiles/registry) provides:
+- Central catalog of all OSSASAI profiles
+- Webhook notifications when framework changes affect profiles
+- Compatibility tracking between OSSASAI and profile versions
+- API endpoints for profile management
+
 ### Available Profiles
 
-<Card title="OCSAS - OpenClaw Security Assurance Standard" icon="claw" href="https://github.com/gensecaihq/ocsas">
-  Implementation profile for OpenClaw AI agent gateway. Maps OSSASAI controls to OpenClaw's DM policies, sandboxing, and security audit CLI.
-</Card>
+<CardGroup cols={2}>
+  <Card title="OCSAS - OpenClaw Security Assurance Standard" icon="terminal" href="/profiles/openclaw">
+    Official implementation profile for OpenClaw AI agent runtime. Complete control mapping with CLI-based verification.
+  </Card>
+  <Card title="Create a Profile" icon="plus" href="/profiles/overview">
+    Create an implementation profile for your platform. Register with the registry to receive framework change notifications.
+  </Card>
+</CardGroup>
 
 ## Getting Started
 
@@ -113,6 +127,6 @@ OSSASAI is an open standard. Contributions are welcome:
 
 ## Version
 
-**OSSASAI v0.1.0** - January 2025
+**OSSASAI v0.2.0** - January 2025
 
-This is an initial release. The framework will evolve based on community feedback and emerging AI agent security research.
+This release includes 30 security controls, a complete profile registry system, and production-ready tooling. The framework will continue to evolve based on community feedback and emerging AI agent security research.

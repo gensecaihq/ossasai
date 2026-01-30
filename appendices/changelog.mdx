@@ -53,13 +53,23 @@ This release addresses critical gaps identified during the industry-readiness re
 - Improved PR commenting with update support
 - Better error messaging and failure enforcement
 
+#### Profile Endpoint System
+- Created `/profiles/registry.mdx` - Central profile registry with API endpoints
+- Added webhook notification system for framework changes
+- Added compatibility tracking between OSSASAI and profile versions
+- Created `/appendices/schemas/profile.schema.json` - Profile validation schema
+- Defined profile lifecycle management (official, verified, community, deprecated)
+- Added API reference for profile registration and change notifications
+
 #### Documentation Updates
 - Created `/profiles/` directory with overview and OpenClaw profile
 - Added `/appendices/schemas/evidence-manifest.schema.json`
+- Added `/appendices/schemas/profile.schema.json`
 - Fixed cross-platform issues in hardening checklist
 - Fixed curl|bash antipattern in CI/CD documentation
 - Updated control overview with GEN domain
 - Expanded L1/L2/L3 control lists
+- Updated OCSAS profile with registry configuration
 
 #### Breaking Changes
 - Audit script now returns FAIL for unverified controls (previously PASS)
